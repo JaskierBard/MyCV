@@ -1,10 +1,12 @@
-import React, { useState, useRef, useEffect } from 'react';
-import './Chat.css';
+import React, { useState, useRef, useEffect } from "react";
+import "./Chat.css";
 
 const Chat = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
   const [messages, setMessages] = useState<string[]>([]);
-  const [inputValue, setInputValue] = useState<string>('');
+  const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -12,14 +14,14 @@ const Chat = () => {
   };
 
   const handleSendMessage = () => {
-    if (inputValue.trim() !== '') {
+    if (inputValue.trim() !== "") {
       setMessages([...messages, inputValue]);
-      setInputValue('');
+      setInputValue("");
     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSendMessage();
     }
   };
@@ -28,24 +30,45 @@ const Chat = () => {
     setIsOpen(!isOpen);
   };
 
+  const toFullscreen = () => {
+    setIsFullscreen(!isFullscreen);
+  };
+
   useEffect(() => {
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
     }
   }, [messages]);
 
   return (
-    <div className={`chat-container ${isOpen ? 'open' : 'closed'}`}>
-      <button className="toggle-button" onClick={toggleChat}>
-        {isOpen ? 'Close Chat' : 'Open Chat'}
-      </button>
+    <>
+      {!isOpen && (
+        <button className="open-button" onClick={toggleChat}>
+          Open chat
+        </button>
+      )}
       {isOpen && (
-        <>
+        <div
+          className={` ${
+            isFullscreen ? "fullscreen-chat-container" : "chat-container"
+          }`}
+        >
+            <nav className="nav">
+          <text className="name">MateuszBot</text>
+          <div><button className="fullscreen-button" onClick={toFullscreen}>
+            [ ]
+          </button>
+          <button className="close-button" onClick={toggleChat}>
+            X
+          </button></div>
+          
+          </nav>
           <div className="message-container" ref={messageContainerRef}>
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`message ${index % 2 === 0 ? 'ai-message' : ''}`}
+                className={`message ${index % 2 === 0 ? "ai-message" : ""}`}
                 style={{ width: `${getMessageWidth(message)}px` }}
               >
                 {message}
@@ -65,18 +88,18 @@ const Chat = () => {
               Send
             </button>
           </div>
-        </>
+        </div>
       )}
-    </div>
+    </>
   );
 };
 
 // Function to calculate width of message based on text length
 const getMessageWidth = (text: string) => {
-  const canvas = document.createElement('canvas');
-  const context = canvas.getContext('2d');
+  const canvas = document.createElement("canvas");
+  const context = canvas.getContext("2d");
   if (context) {
-    context.font = '14px Arial'; // You can adjust the font size here
+    context.font = "14px Arial"; // You can adjust the font size here
     const width = context.measureText(text).width;
     return width + 10; // Adding some padding
   }
