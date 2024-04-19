@@ -2,7 +2,11 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
 
-const ChatMessages = () => {
+export interface Props {
+    feedback: boolean;
+  }
+
+const ChatMessages = (props:Props) => {
   const [messages, setMessages] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -10,6 +14,12 @@ const ChatMessages = () => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+
+  useEffect(() => {
+    if (props.feedback === true) {
+        setMessages((prevMessages) => [...prevMessages, "Zaczekaj! Jeśli zamkniesz to okno wiadomości zostaną usunięte, przed zamknięciem daj mi feedback"]);
+    }
+  }, [props.feedback]);
 
   const handleSendMessage = async () => {
     if (inputValue.trim() !== "") {
@@ -76,11 +86,11 @@ const ChatMessages = () => {
           value={inputValue}
           onChange={handleInputChange}
           onKeyDown={handleKeyDown}
-          placeholder="Type your message..."
+          placeholder="Zadaj mi pytanie..."
           className="input-field"
         />
         <button onClick={handleSendMessage} className="send-button">
-          Send
+          Wyślij
         </button>
       </div>
     </>

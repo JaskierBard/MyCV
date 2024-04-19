@@ -4,10 +4,16 @@ import ChatMessages from "./ChatMessages";
 
 const Chat = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [tryToClose, setTryToClose] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 
   const toggleChat = () => {
-    setIsOpen(!isOpen);
+    if (isOpen && tryToClose === false) {
+      setTryToClose(true)
+    } else {
+      setIsOpen(!isOpen);
+      setTryToClose(false)
+    }
   };
 
   const toFullscreen = () => {
@@ -20,7 +26,7 @@ const Chat = () => {
     <>
       {!isOpen && (
         <button className="open-button" onClick={toggleChat}>
-          Open chat
+          Otwórz czat
         </button>
       )}
       {isOpen && (
@@ -39,7 +45,7 @@ const Chat = () => {
           </button></div>
           
           </nav>
-          <ChatMessages/>
+          <ChatMessages feedback={tryToClose}/>
         </div>
       )}
     </>
