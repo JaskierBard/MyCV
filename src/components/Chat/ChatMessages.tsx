@@ -1,13 +1,18 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
+import { addToConversation } from "../../services/firebaseChatService";
+import { getDate } from "../../utils/getDate";
 
 export interface Props {
-    feedback: boolean;
-  }
+  feedback: boolean;
+}
 
-const ChatMessages = (props:Props) => {
+const ChatMessages = (props: Props) => {
   const [messages, setMessages] = useState<string[]>([]);
+  const [conversationID, setConversationID] = useState<string | null>(null);
+  const [conversationLp, setConversationLp] = useState<number>(1);
+
   const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -17,7 +22,10 @@ const ChatMessages = (props:Props) => {
 
   useEffect(() => {
     if (props.feedback === true) {
-        setMessages((prevMessages) => [...prevMessages, "Zaczekaj! Jeśli zamkniesz to okno wiadomości zostaną usunięte, przed zamknięciem daj mi feedback"]);
+      setMessages((prevMessages) => [
+        ...prevMessages,
+        "Zaczekaj! Jeśli zamkniesz to okno wiadomości zostaną usunięte, przed zamknięciem daj mi feedback",
+      ]);
     }
   }, [props.feedback]);
 
@@ -51,12 +59,22 @@ const ChatMessages = (props:Props) => {
   };
 
   const AImessage = async (userText: string) => {
-    console.log(userText);
+    // console.log(userText);
     const system =
       "Jesteś programistą Javascript masz na imie Mateusz i szukasz pracy, rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania";
     const chat = new OpenAiChat(system);
     const res = await chat.say(userText);
-    // console.log(res);
+
+    if (conversationID === null) {
+      const date = getDate();
+      setConversationID(date);
+      addToConversation(date, conversationLp, userText, res);
+      setConversationLp(conversationLp + 1);
+    }
+    if (conversationID) {
+      addToConversation(conversationID, conversationLp, userText, res);
+      setConversationLp(conversationLp + 1);
+    }
     return res;
   };
 
