@@ -9,6 +9,5 @@ export const getDate = () => {
     const seconds = String(currentDate.getSeconds()).padStart(2, '0'); // Pobierz sekundę i wyrównaj do dwóch cyfr (np. "59")
     
     const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-    console.log(formattedDate); // Wyświetli np. "2023-04-23 12:05:59"
     return formattedDate;
 }

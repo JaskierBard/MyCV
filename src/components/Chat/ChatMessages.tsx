@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
-import { addToConversation } from "../../services/firebaseChatService";
+import { addToConversation, getAboutMe } from "../../services/firebaseChatService";
 import { getDate } from "../../utils/getDate";
+import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
 
 export interface Props {
   feedback: boolean;
 }
+
 
 const ChatMessages = (props: Props) => {
   const [messages, setMessages] = useState<string[]>([]);
@@ -45,11 +47,21 @@ const ChatMessages = (props: Props) => {
         index = (index + 1) % dotsArray.length;
       }, 500);
 
-      const response = await AImessage(inputValue);
+      const rawResponse = await AImessage(inputValue);
+      const formatedMessage = convertTextToHyperlinks(rawResponse);
 
       clearInterval(intervalId);
-      setMessages((prevMessages) => [...prevMessages.slice(0, -1), response]);
+      setMessages((prevMessages) => [...prevMessages.slice(0, -1), formatedMessage]);
     }
+  };
+  (window as any).copyToClipboard = (text: string) => {
+    navigator.clipboard.writeText(text)
+      .then(() => {
+        console.log('Numer telefonu został skopiowany do schowka');
+      })
+      .catch((err) => {
+        console.error('Błąd podczas kopiowania numeru telefonu do schowka: ', err);
+      });
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -59,20 +71,23 @@ const ChatMessages = (props: Props) => {
   };
 
   const AImessage = async (userText: string) => {
-    // console.log(userText);
+    const data = await getAboutMe()
+    const jsonData = JSON.stringify(data);
+
     const system =
-      "Jesteś programistą Javascript masz na imie Mateusz i szukasz pracy, rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania";
+      "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Tutaj podaje w obiekcie wszystkie potrzebne dane:" + jsonData + "Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne";
     const chat = new OpenAiChat(system);
     const res = await chat.say(userText);
-
+   
+    
     if (conversationID === null) {
       const date = getDate();
       setConversationID(date);
-      addToConversation(date, conversationLp, userText, res);
+      // addToConversation(date, conversationLp, userText, res);
       setConversationLp(conversationLp + 1);
     }
     if (conversationID) {
-      addToConversation(conversationID, conversationLp, userText, res);
+      // addToConversation(conversationID, conversationLp, userText, res);
       setConversationLp(conversationLp + 1);
     }
     return res;
@@ -94,7 +109,7 @@ const ChatMessages = (props: Props) => {
             className={`message ${index % 2 !== 0 ? "ai-message" : ""}`}
             style={{ width: `${getMessageWidth(message)}px` }}
           >
-            {message}
+            <span dangerouslySetInnerHTML={{ __html: message }} />
           </div>
         ))}
       </div>
