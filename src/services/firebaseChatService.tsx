@@ -6,13 +6,15 @@ import {
     updateDoc,
   } from "firebase/firestore";
   import { FIRESTORE_DB } from "./firebaseConfig";
+import { getDate } from "../utils/getDate";
 
 
-  export const addToConversation = async (id: string, lp: number, question: string, answer: string) => {
-    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), id);
+  export const addToConversation = async (history:string) => {
+    const date = getDate()
+    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
   
     await setDoc(conversationRef, {
-      [lp]: [question, answer]
+      history
     }, { merge: true }); // Ustawienie opcji merge na true, aby stworzyć dokument, jeśli nie istnieje, lub zaktualizować go, jeśli istnieje
   
     console.log('dodano do konwersacji firebase');

@@ -2,7 +2,18 @@ import OpenAI from "openai";
 import { API_KEY } from "../services/aiConfig";
 import {
   ChatCompletion,
+  ChatCompletionCreateParamsBase,
 } from "openai/resources/chat/completions";
+
+
+const parameters: ChatCompletionCreateParamsBase = {
+  n: 1, // liczba odpowiedzi, nie zawsze działa
+  top_p: 1, // im większe tym bardziej kreatywny, lepiej bawić się tylko temperaturą
+  temperature: 1, // im większe tym bardziej kreatywny, nie zmieniać obu na raz
+  max_tokens: 1000, // utnie odpowiedź jeśli się przekroczy tokeny
+  stream: false, // podaje całą odpowiedź a nie po literce
+  model: "gpt-3.5-turbo",
+  messages: [],}
 
 const extractFirstChoiceText = (
   msg: OpenAI.Chat.Completions.ChatCompletion
@@ -36,10 +47,7 @@ export class OpenAiChat {
   
     try {
       const data = await this.openai.chat.completions.create({
-        temperature: 0.7,
-        max_tokens: 1000,
-        stream: false,
-        model: "gpt-4-turbo-preview",
+        ...parameters,
         messages: this.messages,
       });
   
