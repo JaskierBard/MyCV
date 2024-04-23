@@ -27,7 +27,7 @@ const ChatMessages = (props: Props) => {
   };
   useEffect(() => {
     if (messages.length > 0) {
-      addToConversation(messages, chatBeginAt);
+      // addToConversation(messages, chatBeginAt);
     }
   }, [messages]);
   useEffect(() => {
@@ -110,7 +110,7 @@ const ChatMessages = (props: Props) => {
             >
               <span
                 dangerouslySetInnerHTML={{
-                  __html: convertTextToHyperlinks(message.content),
+                  __html: (message.content),
                 }}
               />
             </div>

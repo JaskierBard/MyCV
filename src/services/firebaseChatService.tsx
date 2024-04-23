@@ -5,7 +5,8 @@ import {
     setDoc,
     updateDoc,
   } from "firebase/firestore";
-  import { FIRESTORE_DB } from "./firebaseConfig";
+  import { FIREBASE_STORAGE, FIRESTORE_DB } from "./firebaseConfig";
+import { getDownloadURL, listAll, ref } from "firebase/storage";
 
 
   export const addToConversation = async (history:string, date:string) => {
@@ -30,3 +31,38 @@ import {
       return {}; // Zwróć pusty obiekt w przypadku błędu
     }
   };
+
+  // export const getImage = async (folder: string) => {
+  //   try {
+  //     const storageRef = ref(FIREBASE_STORAGE, `${folder}`);
+  //     listAll(storageRef).then((result) => {
+  //       result.items.forEach((itemRef) => {
+  //         getDownloadURL(itemRef).then((url) => {
+  //           console.log(itemRef.name,' URL do pobrania pliku:', url);
+  //         }).catch((error) => {
+  //           console.error('Błąd podczas pobierania URL:', error);
+  //         });
+  //       });
+  //     }).catch((error) => {
+  //       console.error('Błąd podczas pobierania listy plików:', error);
+  //     });
+  //   } catch (error) {
+  //     console.error("Błąd podczas pobierania danych:", error);
+  //   }
+  // }
+
+
+export const getImage = async (folder: string) => {
+  try {
+    const storageRef = ref(FIREBASE_STORAGE, `${folder}`);
+    const result = await listAll(storageRef);
+    const imageUrls = await Promise.all(result.items.map(async (itemRef) => {
+      const url = await getDownloadURL(itemRef);
+      return { [itemRef.name]: url };
+    }));
+    return imageUrls;
+  } catch (error) {
+    console.error("Błąd podczas pobierania danych:", error);
+    return []; // Zwracanie pustej tablicy w przypadku błędu
+  }
+}

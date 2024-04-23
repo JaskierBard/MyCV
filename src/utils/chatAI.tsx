@@ -56,6 +56,23 @@ const parameters: ChatCompletionCreateParamsBase = {
       }
         
     },
+    {
+      type: "function",
+      function: {
+        name: 'getPictures',
+        description: 'Use this function call to get all picture names from storage and then choose correct ones, show one and ask about more. Show only link wrapped on <img class="picture" src=linkhere/>',
+        parameters: {
+            type: 'object',
+            properties: {
+                informations: {
+                    type: 'string',
+                    description: 'Get pictures',
+                },
+            },
+        },
+      }
+        
+    },
 ],}
 
 export type ChatResponse = null | {
