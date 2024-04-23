@@ -2,7 +2,11 @@ import { useState } from "react";
 import "./Chat.css";
 import ChatMessages from "./ChatMessages";
 
-const Chat = () => {
+export interface Props {
+  aboutMe: any;
+}
+
+const Chat = (props:Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [tryToClose, setTryToClose] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
@@ -45,7 +49,7 @@ const Chat = () => {
           </button></div>
           
           </nav>
-          <ChatMessages feedback={tryToClose}/>
+          <ChatMessages feedback={tryToClose} aboutMe={props.aboutMe}/>
         </div>
       )}
     </>

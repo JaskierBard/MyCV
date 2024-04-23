@@ -21,8 +21,14 @@ import { getDate } from "../utils/getDate";
   };
 
   export const getAboutMe = async () => {
-    const heroRef = doc(FIRESTORE_DB, `about me/Mateusz`);
-    const heroDoc = await getDoc(heroRef);
-    const currentData = heroDoc.data() || [];
-    return currentData;
+    try {
+      const heroRef = doc(FIRESTORE_DB, `about me/Mateusz`);
+      const heroDoc = await getDoc(heroRef);
+      const currentData = heroDoc.data() || {};
+      console.log(typeof currentData);
+      return currentData;
+    } catch (error) {
+      console.error('An error occurred while fetching about me data:', error);
+      return {}; // Zwróć pusty obiekt w przypadku błędu
+    }
   };

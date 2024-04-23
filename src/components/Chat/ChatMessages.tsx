@@ -9,11 +9,13 @@ import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
 
 export interface Props {
   feedback: boolean;
+  aboutMe: any;
 }
 
 const ChatMessages = (props: Props) => {
   const [messages, setMessages] = useState<any>([]);
   const [chat, setChat] = useState<any>();
+
   const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
 
@@ -23,12 +25,9 @@ const ChatMessages = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      const data = await getAboutMe();
-      const jsonData = JSON.stringify(data);
+      
       const system =
-        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Tutaj podaje w obiekcie wszystkie potrzebne dane:" +
-        jsonData +
-        "Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne";
+        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne";
 
       const xd = new OpenAiChat(system);
       setChat(xd);
@@ -52,10 +51,30 @@ const ChatMessages = (props: Props) => {
       handleSendMessage();
     }
   };
+  
 
   const AImessage = async (userText: string) => {
-    const res = await chat.say(userText);
-    return res;
+    const ans = await chat.say(userText);
+
+    // console.log(ans);
+
+    if (ans.toolCall) {
+      try {
+        if (ans.toolCall[0].function.name === "getInformations") {
+          const data = ans.toolCall[0].function.arguments;
+          const resultObject = JSON.parse(data);
+          const xd:string = (resultObject['informations']);
+          console.log(props.aboutMe[xd]);
+        }
+        
+          
+        
+
+    } catch(e) {
+        return (e as Error).message;
+    }
+    }
+    return ans;
   };
 
   useEffect(() => {
