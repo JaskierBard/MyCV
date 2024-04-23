@@ -1,6 +1,6 @@
 export const convertTextToHyperlinks = (text: string) => {
     // Wyrażenie regularne do wyszukiwania linków HTTP/HTTPS/FTP
-    const linkRegex = /(?:https?|ftp):\/\/[^\s/$.?#].[^\s]*/g;
+    const linkRegex = /(?:https?|ftp):\/\/[^\s/$.?#[\])]+(?:\)|\])?.[^\s\[\])"]*/g;
     // Wyrażenie regularne do wyszukiwania linków bez protokołu (www)
     const wwwLinkRegex = /(?:(?:www\.)|(?:www2\.)|(?:www3\.))(?:\S+)/g;
     // Wyrażenie regularne do wyszukiwania numerów telefonów

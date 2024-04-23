@@ -6,11 +6,9 @@ import {
     updateDoc,
   } from "firebase/firestore";
   import { FIRESTORE_DB } from "./firebaseConfig";
-import { getDate } from "../utils/getDate";
 
 
-  export const addToConversation = async (history:string) => {
-    const date = getDate()
+  export const addToConversation = async (history:string, date:string) => {
     const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
   
     await setDoc(conversationRef, {
@@ -25,7 +23,7 @@ import { getDate } from "../utils/getDate";
       const heroRef = doc(FIRESTORE_DB, `about me/Mateusz`);
       const heroDoc = await getDoc(heroRef);
       const currentData = heroDoc.data() || {};
-      console.log(typeof currentData);
+      // console.log(typeof currentData);
       return currentData;
     } catch (error) {
       console.error('An error occurred while fetching about me data:', error);

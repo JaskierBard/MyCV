@@ -6,6 +6,8 @@ import {
   getAboutMe,
 } from "../../services/firebaseChatService";
 import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
+import { handleCalledFunction } from "../../utils/callable-functions";
+import { getDate } from "../../utils/getDate";
 
 export interface Props {
   feedback: boolean;
@@ -25,9 +27,9 @@ const ChatMessages = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      
+      const cutrrentDate = getDate();
       const system =
-        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne";
+        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" + cutrrentDate;
 
       const xd = new OpenAiChat(system);
       setChat(xd);
@@ -41,9 +43,10 @@ const ChatMessages = (props: Props) => {
         { role: "user", content: inputValue },
       ]);
       setInputValue("");
-      await AImessage(inputValue);
-      setMessages(chat.history.slice(1));
-    }
+      const answer = await AImessage(inputValue);
+     
+       
+     }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -51,30 +54,26 @@ const ChatMessages = (props: Props) => {
       handleSendMessage();
     }
   };
-  
 
   const AImessage = async (userText: string) => {
     const ans = await chat.say(userText);
 
-    // console.log(ans);
+    const functionCallLoop = async (ans: any):Promise<any> => {
+      if (ans.content) {
+        setMessages((prevMessages: any) => [
+          ...prevMessages,
+          { role: "assistant", content: ans.content },
+        ]);
+      }
 
-    if (ans.toolCall) {
-      try {
-        if (ans.toolCall[0].function.name === "getInformations") {
-          const data = ans.toolCall[0].function.arguments;
-          const resultObject = JSON.parse(data);
-          const xd:string = (resultObject['informations']);
-          console.log(props.aboutMe[xd]);
-        }
-        
-          
-        
-
-    } catch(e) {
-        return (e as Error).message;
-    }
-    }
-    return ans;
+      if (ans.toolCall) {
+        const res = await handleCalledFunction(ans.toolCall[0].function);
+        const ans2 = await chat.say((JSON.stringify(res)), "function", ans.toolCall[0].function.name);
+        return await functionCallLoop(ans2);
+      } 
+      
+    };
+    await functionCallLoop(ans);;
   };
 
   useEffect(() => {
@@ -101,7 +100,7 @@ const ChatMessages = (props: Props) => {
             >
               <span
                 dangerouslySetInnerHTML={{
-                  __html: convertTextToHyperlinks(message.content),
+                  __html: (convertTextToHyperlinks(message.content)),
                 }}
               />
             </div>
@@ -131,7 +130,7 @@ const getMessageWidth = (text: string) => {
   if (context) {
     context.font = "14px Arial";
     const width = context.measureText(text).width;
-    return width + 10;
+    return width + 20;
   }
   return 200;
 };

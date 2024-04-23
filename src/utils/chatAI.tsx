@@ -16,14 +16,16 @@ const parameters: ChatCompletionCreateParamsBase = {
   temperature: 1, // im większe tym bardziej kreatywny, nie zmieniać obu na raz
   max_tokens: 1000, // utnie odpowiedź jeśli się przekroczy tokeny
   stream: false, // podaje całą odpowiedź a nie po literce
-  model: "gpt-3.5-turbo",
+  // model: "gpt-3.5-turbo",
+  model: 'gpt-4-1106-preview',
+
   messages: [],
   tools: [
     {
       type: "function",
       function: {
         name: 'getInformations',
-        description: 'Use it when user asks about something',
+        description: 'Always use this functionCall when user is need some informations or asks about something',
         parameters: {
             type: 'object',
             properties: {
@@ -37,24 +39,23 @@ const parameters: ChatCompletionCreateParamsBase = {
       }
         
     },
-    // {
-    //   type: "function",
-    //   function: {
-    //     name: 'getInformations',
-    //     description: 'Use it when user asks about something',
-    //     parameters: {
-    //         type: 'object',
-    //         properties: {
-    //             informations: {
-    //                 type: 'string',
-    //                 description: 'give me only pure enum',
-    //                 enum: ['certifications', 'personalDetails', 'projects', 'skills'],
-    //             },
-    //         },
-    //     },
-    //   }
+    {
+      type: "function",
+      function: {
+        name: 'answerWithInformations',
+        description: 'Always use when you already recieved infrmation to answer',
+        parameters: {
+            type: 'object',
+            properties: {
+                informations: {
+                    type: 'string',
+                    description: 'Answer about',
+                },
+            },
+        },
+      }
         
-    // },
+    },
 ],}
 
 export type ChatResponse = null | {
@@ -107,7 +108,7 @@ export class OpenAiChat {
         messages: this.messages,
     });
     const msg: any = extractFirstChoice(data as ChatCompletion);  
-
+    
     if (msg.content) {
       this.messages.push({
             role: 'assistant',
