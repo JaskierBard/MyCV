@@ -17,6 +17,7 @@ export interface Props {
 const ChatMessages = (props: Props) => {
   const [messages, setMessages] = useState<any>([]);
   const [chat, setChat] = useState<any>();
+  const [chatBeginAt, setChatBeginAt] = useState<any>();
 
   const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -24,12 +25,19 @@ const ChatMessages = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-
+  useEffect(() => {
+    if (messages.length > 0) {
+      addToConversation(messages, chatBeginAt);
+    }
+  }, [messages]);
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
+      setChatBeginAt(cutrrentDate);
       const system =
-        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" + cutrrentDate;
+        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca. Formą rozmowy jest czat załączony do CV, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" +
+        cutrrentDate +
+        "wszystkie dane których potrzebujesz posiadam w bazie danych -  wywołaj odpowiednią funkcję, nigdy nie odpowiadaj bez pobrania danych i nie zmyślaj od tego zależy nasza praca!";
 
       const xd = new OpenAiChat(system);
       setChat(xd);
@@ -43,10 +51,8 @@ const ChatMessages = (props: Props) => {
         { role: "user", content: inputValue },
       ]);
       setInputValue("");
-      const answer = await AImessage(inputValue);
-     
-       
-     }
+      await AImessage(inputValue);
+    }
   };
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -58,7 +64,7 @@ const ChatMessages = (props: Props) => {
   const AImessage = async (userText: string) => {
     const ans = await chat.say(userText);
 
-    const functionCallLoop = async (ans: any):Promise<any> => {
+    const functionCallLoop = async (ans: any): Promise<any> => {
       if (ans.content) {
         setMessages((prevMessages: any) => [
           ...prevMessages,
@@ -68,12 +74,16 @@ const ChatMessages = (props: Props) => {
 
       if (ans.toolCall) {
         const res = await handleCalledFunction(ans.toolCall[0].function);
-        const ans2 = await chat.say((JSON.stringify(res)), "function", ans.toolCall[0].function.name);
+        const ans2 = await chat.say(
+          JSON.stringify(res),
+          "function",
+          ans.toolCall[0].function.name
+        );
         return await functionCallLoop(ans2);
-      } 
-      
+      }
     };
-    await functionCallLoop(ans);;
+
+    await functionCallLoop(ans);
   };
 
   useEffect(() => {
@@ -100,7 +110,7 @@ const ChatMessages = (props: Props) => {
             >
               <span
                 dangerouslySetInnerHTML={{
-                  __html: (convertTextToHyperlinks(message.content)),
+                  __html: convertTextToHyperlinks(message.content),
                 }}
               />
             </div>

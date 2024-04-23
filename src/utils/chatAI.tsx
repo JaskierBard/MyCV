@@ -25,14 +25,14 @@ const parameters: ChatCompletionCreateParamsBase = {
       type: "function",
       function: {
         name: 'getInformations',
-        description: 'Always use this functionCall when user is need some informations or asks about something',
+        description: 'Always use this functionCall when user is need some informations or asks about something and you dont have it its very important. Never dream up',
         parameters: {
             type: 'object',
             properties: {
                 informations: {
                     type: 'string',
                     description: 'give me only pure enum',
-                    enum: ['certifications', 'personalDetails', 'projects', 'skills'],
+                    enum: ['certifications', 'personalDetails', 'projects', 'skills', 'aboutCV', 'accessibility'],
                 },
             },
         },
