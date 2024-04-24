@@ -8,6 +8,7 @@ import {
   ChatCompletionMessageToolCall,
   ChatCompletionRole,
 } from "openai/resources/chat/completions";
+import { CompletionUsage } from "openai/resources";
 
 
 const parameters: ChatCompletionCreateParamsBase = {
@@ -78,11 +79,12 @@ const parameters: ChatCompletionCreateParamsBase = {
 export type ChatResponse = null | {
   content: null | string;
   toolCall: null | ChatCompletionMessageToolCall[];
+  usage: null | CompletionUsage
 }
 
   const extractFirstChoice = (msg: OpenAI.Chat.Completions.ChatCompletion): ChatResponse => {
     const firstChoice = msg?.choices?.[0]?.message;
-  
+    const usage = msg.usage
     if (!firstChoice) {
         return null;
     }
@@ -90,6 +92,8 @@ export type ChatResponse = null | {
     return {
         content: firstChoice.content ?? null,
         toolCall: firstChoice.tool_calls ?? null,
+        usage: usage ?? null,
+
     };
   }
 
@@ -99,6 +103,7 @@ export class OpenAiChat {
     dangerouslyAllowBrowser: true // do usunięcia
   });
   private readonly messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
+  private readonly usage: CompletionUsage[];
 
   constructor(system: string) {
     this.messages = [
@@ -107,6 +112,8 @@ export class OpenAiChat {
         content: system,
       },
     ];
+    this.usage = []
+    
   }
 
   async say(
@@ -131,6 +138,12 @@ export class OpenAiChat {
             role: 'assistant',
             content: msg.content,
           });
+          
+    }
+    if (msg.usage) {
+      this.usage.push(
+        msg.usage
+      );
     }
 
     return msg;
@@ -143,5 +156,9 @@ export class OpenAiChat {
 
   get history() {
     return this.messages;
+  }
+
+  get getUsage() {
+    return this.usage;
   }
 }

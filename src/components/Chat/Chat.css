@@ -118,3 +118,15 @@
   max-width: 100%;
   max-height: 400px;
 }
+
+  /* chat-limmiter */
+
+.chat-limiter-toggler{
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.568);
+  border-color: rgba(0, 0, 0, 0);
+  color: rgb(215, 222, 228);
+  font-weight: bolder;
+  cursor: pointer;
+  font-size: 10px;
+}

@@ -8,6 +8,8 @@ import {
 import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
 import { handleCalledFunction } from "../../utils/callable-functions";
 import { getDate } from "../../utils/getDate";
+import { getIp } from "../../utils/getIp";
+import ChatLimiter from "./ChatLimiter";
 
 export interface Props {
   feedback: boolean;
@@ -17,6 +19,8 @@ export interface Props {
 const ChatMessages = (props: Props) => {
   const [messages, setMessages] = useState<any>([]);
   const [chat, setChat] = useState<any>();
+  const [usage, setUsage] = useState<any>([]);
+
   const [chatBeginAt, setChatBeginAt] = useState<any>();
 
   const [inputValue, setInputValue] = useState<string>("");
@@ -52,6 +56,14 @@ const ChatMessages = (props: Props) => {
       ]);
       setInputValue("");
       await AImessage(inputValue);
+      
+
+   
+
+      // const {input, output} = chat.spend[0].spend
+
+      // console.log('input: ' + input + '\noutput: ' + output + '\n'+ await getIp());
+      
     }
   };
 
@@ -70,6 +82,11 @@ const ChatMessages = (props: Props) => {
           ...prevMessages,
           { role: "assistant", content: ans.content },
         ]);
+        setUsage((prevState: any) => ({
+          ...prevState,
+          ...chat.usage,
+        }))
+
       }
 
       if (ans.toolCall) {
@@ -95,6 +112,8 @@ const ChatMessages = (props: Props) => {
 
   return (
     <>
+      <ChatLimiter usage={usage} chat={chat}/>
+
       <div className="message-container" ref={messageContainerRef}>
         {messages.map(
           (
@@ -129,7 +148,9 @@ const ChatMessages = (props: Props) => {
         <button onClick={handleSendMessage} className="send-button">
           Wyślij
         </button>
+    
       </div>
+
     </>
   );
 };
