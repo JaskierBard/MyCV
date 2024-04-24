@@ -14,6 +14,8 @@ import ChatLimiter from "./ChatLimiter";
 export interface Props {
   feedback: boolean;
   aboutMe: any;
+  userIp: string;
+
 }
 
 const ChatMessages = (props: Props) => {
@@ -29,11 +31,14 @@ const ChatMessages = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
-  useEffect(() => {
-    if (messages.length > 0) {
-      // addToConversation(messages, chatBeginAt);
-    }
-  }, [messages]);
+
+  const getUsedTokens = (usedTokens:string) => {
+    addToConversation(props.userIp, messages, chatBeginAt, usedTokens);
+
+  }
+    
+  
+
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
@@ -112,7 +117,7 @@ const ChatMessages = (props: Props) => {
 
   return (
     <>
-      <ChatLimiter usage={usage} chat={chat}/>
+      <ChatLimiter usage={usage} chat={chat} getUsedTokens={getUsedTokens}/>
 
       <div className="message-container" ref={messageContainerRef}>
         {messages.map(

@@ -9,12 +9,12 @@ import {
 import { getDownloadURL, listAll, ref } from "firebase/storage";
 
 
-  export const addToConversation = async (history:string, date:string) => {
-    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
+  export const addToConversation = async (userIp:string, history:string, date:string, usedTokens:string) => {
+    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), userIp);
   
     await setDoc(conversationRef, {
-      history
-    }, { merge: true }); // Ustawienie opcji merge na true, aby stworzyć dokument, jeśli nie istnieje, lub zaktualizować go, jeśli istnieje
+      [date]: [{usedTokens:usedTokens}, {history: history}]
+    }, { merge: true });
   
     console.log('dodano do konwersacji firebase');
   };
