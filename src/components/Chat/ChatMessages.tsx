@@ -23,10 +23,12 @@ const ChatMessages = (props: Props) => {
   const [messages, setMessages] = useState<any>([]);
   const [chat, setChat] = useState<any>();
   const [usage, setUsage] = useState<any>([]);
+  const [tokenLimits, setTokenLimits] = useState<any>();
+  const [totalTokenLimits, setTotalTokenLimits] = useState<any>();
+
 
   const [chatBeginAt, setChatBeginAt] = useState<any>();
   const [userID, setUserID] = useState<any>();
-
 
   const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -36,31 +38,34 @@ const ChatMessages = (props: Props) => {
   };
 
   const getUsedTokens = (usedTokens: string) => {
+    setTokenLimits(15000 - Number(usedTokens));
     addToConversation(props.userId, messages, chatBeginAt, usedTokens);
   };
 
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
-      const totalUsedTokens = sumUsedTokensFromDate(cutrrentDate);
+      setTotalTokenLimits(await sumUsedTokensFromDate(cutrrentDate));
       setChatBeginAt(cutrrentDate);
-      const userIDdata = await getIp()
+      const userIDdata = await getIp();
       setUserID(userIDdata);
 
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
       const system =
         "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca. Formą rozmowy jest czat załączony do CV, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" +
         cutrrentDate +
-        "wszystkie dane których potrzebujesz posiadam w bazie danych -  wywołaj odpowiednią funkcję, nigdy nie odpowiadaj bez pobrania danych i nie zmyślaj od tego zależy nasza praca!";
+        "wszystkie dane których potrzebujesz posiadam w bazie danych -  wywołaj odpowiednią funkcję, nigdy nie odpowiadaj bez pobrania danych chyba że informacje masz w swojej historii i nie zmyślaj od tego zależy nasza praca!";
 
       const xd = new OpenAiChat(system);
       setChat(xd);
       if (data) {
         const prevMessages = data[1]?.history;
-        console.log(prevMessages);
+
+        // console.log(prevMessages);
         if (prevMessages) {
-          xd.initiateChat(prevMessages);
+          xd.initiateChat(prevMessages, { total_tokens: data[0]?.usedTokens });
           setMessages(prevMessages);
+          setUsage({ 0: { total_tokens: data[0]?.usedTokens } });
         }
       }
     })();
@@ -74,6 +79,9 @@ const ChatMessages = (props: Props) => {
       ]);
       setInputValue("");
       await AImessage(inputValue);
+      console.log("historia");
+
+      console.log(chat.history);
 
       // const {input, output} = chat.spend[0].spend
 
@@ -149,19 +157,25 @@ const ChatMessages = (props: Props) => {
           )
         )}
       </div>
-      <div className="input-container">
-        <input
-          type="text"
-          value={inputValue}
-          onChange={handleInputChange}
-          onKeyDown={handleKeyDown}
-          placeholder="Zadaj mi pytanie..."
-          className="input-field"
-        />
-        <button onClick={handleSendMessage} className="send-button">
-          Wyślij
-        </button>
-      </div>
+      {tokenLimits > 0 || totalTokenLimits > 30000 ? (
+        <div className="send-button">
+          Przekroczono limit tokenów: {tokenLimits}
+        </div>
+      ) : (
+        <div className="input-container">
+          <input
+            type="text"
+            value={inputValue}
+            onChange={handleInputChange}
+            onKeyDown={handleKeyDown}
+            placeholder="zadaj mi pytanie..."
+            className="input-field"
+          />
+          <button onClick={handleSendMessage} className="send-button">
+            Wyślij
+          </button>
+        </div>
+      )}
     </>
   );
 };

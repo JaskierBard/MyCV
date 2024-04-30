@@ -4,7 +4,7 @@ import "./Chat.css";
 export interface Props {
   chat: any;
   usage: undefined | object;
-  getUsedTokens: (variable:string) => void
+  getUsedTokens: (variable: string) => void;
 }
 
 const ChatLimiter = (props: Props) => {
@@ -13,19 +13,17 @@ const ChatLimiter = (props: Props) => {
 
   useEffect(() => {
     if (props.usage) {
-     
-      const totalTokenSum = Object.values(props.usage).reduce((acc, curr) => acc + curr.total_tokens, 0);
+      // console.log(props.usage);
+      const totalTokenSum = Object.values(props.usage).reduce(
+        (acc, curr) => acc + curr.total_tokens,
+        0
+      );
       setSum(totalTokenSum);
-      console.log(totalTokenSum)
       if (totalTokenSum > 0) {
-              props.getUsedTokens(totalTokenSum)
+        props.getUsedTokens(totalTokenSum);
       }
-
     }
-
   }, [props.usage]);
-
-
 
   return (
     <>

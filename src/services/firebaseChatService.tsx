@@ -42,14 +42,13 @@ import { getDownloadURL, listAll, ref } from "firebase/storage";
 
 
   export const checkUserByDateAndIp = async (date: string, userIp: string): Promise<any[] | null> => {
-    console.log(date, userIp);
     const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
     const docSnapshot = await getDoc(conversationRef);
   
     if (docSnapshot.exists()) {
       const conversationData = docSnapshot.data();
       const userData = conversationData[userIp];
-      console.log('user data: ' + userData);
+      // console.log('user data: ' + userData);
       return userData; // Bez użycia await
     } else {
       return null;
