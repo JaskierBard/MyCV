@@ -2,6 +2,7 @@ import {
     collection,
     doc,
     getDoc,
+    getDocs,
     setDoc,
     updateDoc,
   } from "firebase/firestore";
@@ -10,15 +11,32 @@ import { getDownloadURL, listAll, ref } from "firebase/storage";
 
 
   export const addToConversation = async (userIp:string, history:string, date:string, usedTokens:string) => {
-    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), userIp);
+    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
   
     await setDoc(conversationRef, {
-      [date]: [{usedTokens:usedTokens}, {history: history}]
+      [userIp]: [{usedTokens:usedTokens}, {history: history}]
     }, { merge: true });
   
     console.log('dodano do konwersacji firebase');
   };
-
+  export const sumUsedTokensFromDate = async (date: string): Promise<number> => {
+    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
+    const docSnapshot = await getDoc(conversationRef);
+  
+    let totalUsedTokens = 0;
+  
+    if (docSnapshot.exists()) {
+      const conversationData = docSnapshot.data();
+      const userData = Object.values(conversationData)[0] || [];
+  
+      userData.forEach((user: any) => {
+        totalUsedTokens += user.usedTokens || 0;
+      });
+    }
+    console.log('total used tokens: ' + totalUsedTokens);
+    return totalUsedTokens;
+  };
+  
   export const getAboutMe = async () => {
     try {
       const heroRef = doc(FIRESTORE_DB, `about me/Mateusz`);

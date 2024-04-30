@@ -8,6 +8,6 @@ export const getDate = () => {
     const minutes = String(currentDate.getMinutes()).padStart(2, '0'); // Pobierz minutę i wyrównaj do dwóch cyfr (np. "05")
     const seconds = String(currentDate.getSeconds()).padStart(2, '0'); // Pobierz sekundę i wyrównaj do dwóch cyfr (np. "59")
     
-    const formattedDate = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+    const formattedDate = `${year}-${month}-${day}`;
     return formattedDate;
 }

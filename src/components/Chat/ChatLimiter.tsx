@@ -13,6 +13,7 @@ const ChatLimiter = (props: Props) => {
 
   useEffect(() => {
     if (props.usage) {
+     
       const totalTokenSum = Object.values(props.usage).reduce((acc, curr) => acc + curr.total_tokens, 0);
       setSum(totalTokenSum);
       console.log(totalTokenSum)

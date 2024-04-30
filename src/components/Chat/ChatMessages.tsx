@@ -4,6 +4,7 @@ import { OpenAiChat } from "../../utils/chatAI";
 import {
   addToConversation,
   getAboutMe,
+  sumUsedTokensFromDate,
 } from "../../services/firebaseChatService";
 import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
 import { handleCalledFunction } from "../../utils/callable-functions";
@@ -42,6 +43,7 @@ const ChatMessages = (props: Props) => {
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
+      sumUsedTokensFromDate(cutrrentDate)
       setChatBeginAt(cutrrentDate);
       const system =
         "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca. Formą rozmowy jest czat załączony do CV, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" +
