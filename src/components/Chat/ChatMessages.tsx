@@ -3,6 +3,7 @@ import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
 import {
   addToConversation,
+  checkUserByDateAndIp,
   getAboutMe,
   sumUsedTokensFromDate,
 } from "../../services/firebaseChatService";
@@ -15,8 +16,7 @@ import ChatLimiter from "./ChatLimiter";
 export interface Props {
   feedback: boolean;
   aboutMe: any;
-  userIp: string;
-
+  userId: string;
 }
 
 const ChatMessages = (props: Props) => {
@@ -25,6 +25,8 @@ const ChatMessages = (props: Props) => {
   const [usage, setUsage] = useState<any>([]);
 
   const [chatBeginAt, setChatBeginAt] = useState<any>();
+  const [userID, setUserID] = useState<any>();
+
 
   const [inputValue, setInputValue] = useState<string>("");
   const messageContainerRef = useRef<HTMLDivElement>(null);
@@ -33,18 +35,19 @@ const ChatMessages = (props: Props) => {
     setInputValue(e.target.value);
   };
 
-  const getUsedTokens = (usedTokens:string) => {
-    addToConversation(props.userIp, messages, chatBeginAt, usedTokens);
-
-  }
-    
-  
+  const getUsedTokens = (usedTokens: string) => {
+    addToConversation(props.userId, messages, chatBeginAt, usedTokens);
+  };
 
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
-      sumUsedTokensFromDate(cutrrentDate)
+      const totalUsedTokens = sumUsedTokensFromDate(cutrrentDate);
       setChatBeginAt(cutrrentDate);
+      const userIDdata = await getIp()
+      setUserID(userIDdata);
+
+      const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
       const system =
         "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca. Formą rozmowy jest czat załączony do CV, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" +
         cutrrentDate +
@@ -52,6 +55,14 @@ const ChatMessages = (props: Props) => {
 
       const xd = new OpenAiChat(system);
       setChat(xd);
+      if (data) {
+        const prevMessages = data[1]?.history;
+        console.log(prevMessages);
+        if (prevMessages) {
+          xd.initiateChat(prevMessages);
+          setMessages(prevMessages);
+        }
+      }
     })();
   }, []);
 
@@ -63,14 +74,10 @@ const ChatMessages = (props: Props) => {
       ]);
       setInputValue("");
       await AImessage(inputValue);
-      
-
-   
 
       // const {input, output} = chat.spend[0].spend
 
       // console.log('input: ' + input + '\noutput: ' + output + '\n'+ await getIp());
-      
     }
   };
 
@@ -92,8 +99,7 @@ const ChatMessages = (props: Props) => {
         setUsage((prevState: any) => ({
           ...prevState,
           ...chat.usage,
-        }))
-
+        }));
       }
 
       if (ans.toolCall) {
@@ -119,7 +125,7 @@ const ChatMessages = (props: Props) => {
 
   return (
     <>
-      <ChatLimiter usage={usage} chat={chat} getUsedTokens={getUsedTokens}/>
+      <ChatLimiter usage={usage} chat={chat} getUsedTokens={getUsedTokens} />
 
       <div className="message-container" ref={messageContainerRef}>
         {messages.map(
@@ -136,7 +142,7 @@ const ChatMessages = (props: Props) => {
             >
               <span
                 dangerouslySetInnerHTML={{
-                  __html: (message.content),
+                  __html: message.content,
                 }}
               />
             </div>
@@ -155,9 +161,7 @@ const ChatMessages = (props: Props) => {
         <button onClick={handleSendMessage} className="send-button">
           Wyślij
         </button>
-    
       </div>
-
     </>
   );
 };

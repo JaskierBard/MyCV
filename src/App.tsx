@@ -6,15 +6,14 @@ import { getIp } from "./utils/getIp";
 
 function App() {
   const [aboutMe, setAboutMe] = useState<any>();
-  const [userIp, setUserIp] = useState<any>();
+  const [userId, setUserId] = useState<any>();
 
 
 
   useEffect(() => {
     (async () => {
       const data = await getAboutMe();
-      setUserIp(await getIp()
-    ) 
+      setUserId(await getIp()) 
       // const jsonData = JSON.stringify(data);
       setAboutMe(data)
       
@@ -23,7 +22,7 @@ function App() {
 
   return (
     <div className="App">
-      <Chat aboutMe={aboutMe} userIp={userIp}/>
+      <Chat aboutMe={aboutMe} userId={userId}/>
     </div>
   );
 }

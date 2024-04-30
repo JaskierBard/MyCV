@@ -3,7 +3,7 @@ import "./Chat.css";
 import ChatMessages from "./ChatMessages";
 
 export interface Props {
-  userIp: string;
+  userId: string;
   aboutMe: any;
 }
 
@@ -50,7 +50,7 @@ const Chat = (props:Props) => {
           </button></div>
           
           </nav>
-          <ChatMessages feedback={tryToClose} aboutMe={props.aboutMe} userIp={props.userIp}/>
+          <ChatMessages feedback={tryToClose} aboutMe={props.aboutMe} userId={props.userId}/>
         </div>
       )}
     </>

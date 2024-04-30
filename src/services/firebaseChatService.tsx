@@ -26,15 +26,34 @@ import { getDownloadURL, listAll, ref } from "firebase/storage";
     let totalUsedTokens = 0;
   
     if (docSnapshot.exists()) {
-      const conversationData = docSnapshot.data();
-      const userData = Object.values(conversationData)[0] || [];
-  
-      userData.forEach((user: any) => {
-        totalUsedTokens += user.usedTokens || 0;
-      });
+        const conversationData = docSnapshot.data();
+        const userDataValues = Object.values(conversationData);
+
+        userDataValues.forEach((userData: any) => {
+            userData.forEach((user: any) => {
+                totalUsedTokens += user.usedTokens || 0;
+            });
+        });
     }
+
     console.log('total used tokens: ' + totalUsedTokens);
     return totalUsedTokens;
+};
+
+
+  export const checkUserByDateAndIp = async (date: string, userIp: string): Promise<any[] | null> => {
+    console.log(date, userIp);
+    const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
+    const docSnapshot = await getDoc(conversationRef);
+  
+    if (docSnapshot.exists()) {
+      const conversationData = docSnapshot.data();
+      const userData = conversationData[userIp];
+      console.log('user data: ' + userData);
+      return userData; // Bez użycia await
+    } else {
+      return null;
+    }
   };
   
   export const getAboutMe = async () => {

@@ -116,6 +116,14 @@ export class OpenAiChat {
     
   }
 
+  async initiateChat(previousMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[]): Promise<void> {
+    // Sprawdź, czy istnieją wcześniejsze wiadomości
+    if (previousMessages && previousMessages.length > 0) {
+      
+      this.messages.push(...previousMessages);
+    }
+  }
+
   async say(
     prompt: string,
     role: ChatCompletionRole = 'user',
