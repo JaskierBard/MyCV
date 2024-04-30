@@ -1,29 +1,37 @@
 import { useEffect, useState } from "react";
 import "./Chat.css";
+import { sumUsedTokensFromDate } from "../../services/firebaseChatService";
 
 export interface Props {
   chat: any;
   usage: undefined | object;
-  getUsedTokens: (variable: string) => void;
+  currentDate: string;
+  blockInput: () => void;
 }
 
 const ChatLimiter = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [sum, setSum] = useState<number>(0);
+  const [usedUserToken, setUsedUserToken] = useState<any>();
+  const [totalTokenLimits, setTotalTokenLimits] = useState<any>();
 
   useEffect(() => {
-    if (props.usage) {
-      // console.log(props.usage);
-      const totalTokenSum = Object.values(props.usage).reduce(
-        (acc, curr) => acc + curr.total_tokens,
-        0
-      );
-      setSum(totalTokenSum);
-      if (totalTokenSum > 0) {
-        props.getUsedTokens(totalTokenSum);
+    (async () => {
+      if (props.usage) {
+        const totalTokenSum = Object.values(props.usage).reduce(
+          (acc, curr) => acc + curr.total_tokens,
+          0
+        );
+        setUsedUserToken(totalTokenSum);
+        setTotalTokenLimits(await sumUsedTokensFromDate(props.currentDate));
       }
-    }
+    })();
   }, [props.usage]);
+
+  useEffect(() => {
+    if (usedUserToken>11000 || totalTokenLimits>20000) {
+      props.blockInput();
+    }
+  }, [usedUserToken]);
 
   return (
     <>
@@ -31,7 +39,7 @@ const ChatLimiter = (props: Props) => {
         className="chat-limiter-toggler"
         onClick={() => setIsOpen(!isOpen)}
       >
-        limits {isOpen && `pozostało: ${15000 - sum} tokenów`}
+        limits {isOpen && `pozostało: ${15000 - usedUserToken} tokenów`}
       </button>
     </>
   );

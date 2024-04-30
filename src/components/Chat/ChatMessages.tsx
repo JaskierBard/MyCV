@@ -12,20 +12,19 @@ import { handleCalledFunction } from "../../utils/callable-functions";
 import { getDate } from "../../utils/getDate";
 import { getIp } from "../../utils/getIp";
 import ChatLimiter from "./ChatLimiter";
+import ChatSingleMessage from "./ChatSingleMessage";
 
 export interface Props {
   feedback: boolean;
   aboutMe: any;
-  userId: string;
 }
 
 const ChatMessages = (props: Props) => {
+  const [aiChat, setAiChat] = useState<any>();
   const [messages, setMessages] = useState<any>([]);
-  const [chat, setChat] = useState<any>();
   const [usage, setUsage] = useState<any>([]);
-  const [tokenLimits, setTokenLimits] = useState<any>();
-  const [totalTokenLimits, setTotalTokenLimits] = useState<any>();
 
+  const [blockedByTokenLimits, setBlockedByTokenLimits] = useState<boolean>(false);
 
   const [chatBeginAt, setChatBeginAt] = useState<any>();
   const [userID, setUserID] = useState<any>();
@@ -36,16 +35,17 @@ const ChatMessages = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+  const blockInput = () => {
+    setBlockedByTokenLimits(true)
+  };
 
   const getUsedTokens = (usedTokens: string) => {
-    setTokenLimits(15000 - Number(usedTokens));
-    addToConversation(props.userId, messages, chatBeginAt, usedTokens);
+    addToConversation(userID, messages, chatBeginAt, usedTokens);
   };
 
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
-      setTotalTokenLimits(await sumUsedTokensFromDate(cutrrentDate));
       setChatBeginAt(cutrrentDate);
       const userIDdata = await getIp();
       setUserID(userIDdata);
@@ -56,14 +56,13 @@ const ChatMessages = (props: Props) => {
         cutrrentDate +
         "wszystkie dane których potrzebujesz posiadam w bazie danych -  wywołaj odpowiednią funkcję, nigdy nie odpowiadaj bez pobrania danych chyba że informacje masz w swojej historii i nie zmyślaj od tego zależy nasza praca!";
 
-      const xd = new OpenAiChat(system);
-      setChat(xd);
+      const newAiChat = new OpenAiChat(system);
+      setAiChat(newAiChat);
       if (data) {
         const prevMessages = data[1]?.history;
 
-        // console.log(prevMessages);
         if (prevMessages) {
-          xd.initiateChat(prevMessages, { total_tokens: data[0]?.usedTokens });
+          newAiChat.initiateChat(prevMessages, { total_tokens: data[0]?.usedTokens });
           setMessages(prevMessages);
           setUsage({ 0: { total_tokens: data[0]?.usedTokens } });
         }
@@ -79,13 +78,6 @@ const ChatMessages = (props: Props) => {
       ]);
       setInputValue("");
       await AImessage(inputValue);
-      console.log("historia");
-
-      console.log(chat.history);
-
-      // const {input, output} = chat.spend[0].spend
-
-      // console.log('input: ' + input + '\noutput: ' + output + '\n'+ await getIp());
     }
   };
 
@@ -96,7 +88,7 @@ const ChatMessages = (props: Props) => {
   };
 
   const AImessage = async (userText: string) => {
-    const ans = await chat.say(userText);
+    const ans = await aiChat.say(userText);
 
     const functionCallLoop = async (ans: any): Promise<any> => {
       if (ans.content) {
@@ -106,13 +98,13 @@ const ChatMessages = (props: Props) => {
         ]);
         setUsage((prevState: any) => ({
           ...prevState,
-          ...chat.usage,
+          ...aiChat.usage,
         }));
       }
 
       if (ans.toolCall) {
         const res = await handleCalledFunction(ans.toolCall[0].function);
-        const ans2 = await chat.say(
+        const ans2 = await aiChat.say(
           JSON.stringify(res),
           "function",
           ans.toolCall[0].function.name
@@ -133,33 +125,14 @@ const ChatMessages = (props: Props) => {
 
   return (
     <>
-      <ChatLimiter usage={usage} chat={chat} getUsedTokens={getUsedTokens} />
+      {chatBeginAt && <ChatLimiter usage={usage} chat={aiChat} currentDate={chatBeginAt} blockInput={blockInput}/>}
 
       <div className="message-container" ref={messageContainerRef}>
-        {messages.map(
-          (
-            message: { role: string; content: string },
-            index: React.Key | null | undefined
-          ) => (
-            <div
-              key={index}
-              className={`message ${
-                message.role === "assistant" ? "ai-message" : ""
-              }`}
-              style={{ width: `${getMessageWidth(message.content)}px` }}
-            >
-              <span
-                dangerouslySetInnerHTML={{
-                  __html: message.content,
-                }}
-              />
-            </div>
-          )
-        )}
+        <ChatSingleMessage messages={messages} />
       </div>
-      {tokenLimits > 0 || totalTokenLimits > 30000 ? (
+      { blockedByTokenLimits ?(
         <div className="send-button">
-          Przekroczono limit tokenów: {tokenLimits}
+          Przekroczono dzienny limit tokenów
         </div>
       ) : (
         <div className="input-container">
@@ -178,17 +151,6 @@ const ChatMessages = (props: Props) => {
       )}
     </>
   );
-};
-
-const getMessageWidth = (text: string) => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  if (context) {
-    context.font = "14px Arial";
-    const width = context.measureText(text).width;
-    return width + 20;
-  }
-  return 200;
 };
 
 export default ChatMessages;
