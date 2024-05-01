@@ -4,10 +4,8 @@ import { OpenAiChat } from "../../utils/chatAI";
 import {
   addToConversation,
   checkUserByDateAndIp,
-  getAboutMe,
-  sumUsedTokensFromDate,
+  getSystemPrompt,
 } from "../../services/firebaseChatService";
-import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
 import { handleCalledFunction } from "../../utils/callable-functions";
 import { getDate } from "../../utils/getDate";
 import { getIp } from "../../utils/getIp";
@@ -22,6 +20,8 @@ export interface Props {
 const ChatMessages = (props: Props) => {
   const [aiChat, setAiChat] = useState<any>();
   const [messages, setMessages] = useState<any>([]);
+  const [newMessageAwait, setNewMessageAwait] = useState<boolean | null>(null);
+
   const [usage, setUsage] = useState<any>([]);
 
   const [blockedByTokenLimits, setBlockedByTokenLimits] = useState<boolean>(false);
@@ -38,25 +38,14 @@ const ChatMessages = (props: Props) => {
   const blockInput = () => {
     setBlockedByTokenLimits(true)
   };
-
-  const getUsedTokens = (usedTokens: string) => {
-    addToConversation(userID, messages, chatBeginAt, usedTokens);
-  };
-
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
       setChatBeginAt(cutrrentDate);
       const userIDdata = await getIp();
       setUserID(userIDdata);
-
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
-      const system =
-        "Jesteś programistą Javascript , rozmówcą jest rekruter lub potencjalny pracodawca. Formą rozmowy jest czat załączony do CV, zaprezentuj sie jak najlepiej, odpowiadaj krótko w jednym zdaniu. rekruter będzie zadawał kolejne pytania. Twoja odpowiedź będzie wyświetlana w wiadomości chatu. możesz dodać formatowanie tekstu. Nie podawaj od razu wszystkich informacji i nie twórz obszernych opisów tylko tak aby zachęcić do dopytywania. Jeśli podajesz linki lub inne dane to unikaj dodawania nawiasów i innych oznaczeń to bardzo ważne. Aktualna data to:" +
-        cutrrentDate +
-        "wszystkie dane których potrzebujesz posiadam w bazie danych -  wywołaj odpowiednią funkcję, nigdy nie odpowiadaj bez pobrania danych chyba że informacje masz w swojej historii i nie zmyślaj od tego zależy nasza praca!";
-
-      const newAiChat = new OpenAiChat(system);
+      const newAiChat = new OpenAiChat(await getSystemPrompt('mainChat') + cutrrentDate);
       setAiChat(newAiChat);
       if (data) {
         const prevMessages = data[1]?.history;
@@ -77,6 +66,7 @@ const ChatMessages = (props: Props) => {
         { role: "user", content: inputValue },
       ]);
       setInputValue("");
+      setNewMessageAwait(true);
       await AImessage(inputValue);
     }
   };
@@ -100,6 +90,7 @@ const ChatMessages = (props: Props) => {
           ...prevState,
           ...aiChat.usage,
         }));
+        setNewMessageAwait(false)
       }
 
       if (ans.toolCall) {
@@ -125,10 +116,10 @@ const ChatMessages = (props: Props) => {
 
   return (
     <>
-      {chatBeginAt && <ChatLimiter usage={usage} chat={aiChat} currentDate={chatBeginAt} blockInput={blockInput}/>}
+      {chatBeginAt && <ChatLimiter usage={usage} messages={messages} currentDate={chatBeginAt} blockInput={blockInput} userID = {userID} newMessageAwait={newMessageAwait}/>}
 
       <div className="message-container" ref={messageContainerRef}>
-        <ChatSingleMessage messages={messages} />
+        <ChatSingleMessage messages={messages} newMessageAwait={newMessageAwait}/>
       </div>
       { blockedByTokenLimits ?(
         <div className="send-button">

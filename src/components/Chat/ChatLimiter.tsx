@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
 import "./Chat.css";
-import { sumUsedTokensFromDate } from "../../services/firebaseChatService";
+import { addToConversation, sumUsedTokensFromDate } from "../../services/firebaseChatService";
 
 export interface Props {
-  chat: any;
+  userID: string;
+  newMessageAwait: boolean | null;
+  messages: any;
   usage: undefined | object;
   currentDate: string;
   blockInput: () => void;
@@ -16,15 +18,18 @@ const ChatLimiter = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      if (props.usage) {
+      if (props.usage && props.newMessageAwait === false) {
         const totalTokenSum = Object.values(props.usage).reduce(
           (acc, curr) => acc + curr.total_tokens,
           0
         );
         setUsedUserToken(totalTokenSum);
         setTotalTokenLimits(await sumUsedTokensFromDate(props.currentDate));
+        addToConversation(props.userID, props.messages, props.currentDate, totalTokenSum);
+
       }
     })();
+
   }, [props.usage]);
 
   useEffect(() => {

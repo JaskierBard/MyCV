@@ -64,6 +64,21 @@ export const checkUserByDateAndIp = async (
   }
 };
 
+export const getSystemPrompt = async (name: string): Promise<string> => {
+  const conversationRef = doc(
+    collection(FIRESTORE_DB, "settings"),
+    "systemPrompts"
+  );
+  const docSnapshot = await getDoc(conversationRef);
+
+  try {
+    const prompt = docSnapshot.data()?.[name];
+    return prompt;
+  } catch (error) {
+    return "Nie udało się załadować prompta, poproś o przeładowanie strony";
+  }
+};
+
 export const getAboutMe = async () => {
   try {
     const heroRef = doc(FIRESTORE_DB, `about me/Mateusz`);
