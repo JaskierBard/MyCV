@@ -1,10 +1,18 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./CvCard.css";
+import { getImage } from "../../services/firebaseChatService";
 
 
 
 export const LeftSite = () => {
+    const [profilePicture, setProfilePicture] = useState<any>();
 
+    useEffect(() => {
+        (async () => {
+            const pictures = await getImage('myPhotos')
+            setProfilePicture(pictures)
+        })();
+      }, []);
 
   return (
     <div className="left">
@@ -14,7 +22,7 @@ export const LeftSite = () => {
       <div className="container1">
         <img
           className="photo"
-          src={process.env.PUBLIC_URL + "/images/cv.png"}
+          src={profilePicture &&  profilePicture['cv.png']}
           alt="CV"
         />
         <div className="ring">

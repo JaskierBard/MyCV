@@ -38,7 +38,7 @@ const ChatSingleMessage = (props: Props) => {
           >
             <span
               dangerouslySetInnerHTML={{
-                __html: convertTextToHyperlinks(message.content),
+                __html: (message.content),
               }}
             />
           </div>
