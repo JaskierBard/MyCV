@@ -3,7 +3,7 @@ import "./Slider.css";
 
 interface Props {
   icons: any;
-  onBackgroundChange: (backgroundOrange: string, backgroundBlue: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow:string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
 }
 
 const Slider = (props: Props) => {
@@ -29,9 +29,14 @@ const Slider = (props: Props) => {
     const backgroundOrange = `linear-gradient(to bottom right, ${newColor1}, ${newColor2})`;
     const backgroundBlue = `linear-gradient(to bottom right, ${newColorBlue1}, ${newColorBlue2})`;
 
+    const OffsetX = 15;
+    const OffsetY = 15;
+    const BlurRadius = 10;
+      
+    const shadow = `${OffsetX + newBrightness * 0.3}px ${OffsetY + newBrightness * 0.3}px ${BlurRadius + newBrightness * 0.3}px rgba(0, 0, 0, 0.5)`
 
     setBrightness(newBrightness);
-    props.onBackgroundChange(backgroundOrange, backgroundBlue);
+    props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
   };
 
   return (

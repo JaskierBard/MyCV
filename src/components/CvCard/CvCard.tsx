@@ -6,20 +6,22 @@ import { RightSite } from "./RightSite";
 import { getImage } from "../../services/firebaseChatService";
 
 interface Props {
-  onBackgroundChange: (backgroundOrange: string, backgroundBlue: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
 }
 const CvCard = (props:Props) => {
   const [backgroundOrange, setBackgroundOrange] = useState<string>("linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188))");
+  const [shadow, setShadow] = useState<string>("15px 15px 10px rgba(0, 0, 0, 0.5)");
 
-  const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string) => {
-    props.onBackgroundChange(backgroundOrange, backgroundBlue);
 
+  const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
+    props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
+    setShadow(shadow)
     setBackgroundOrange(backgroundOrange);
 };
   return (
     <div>
       <Navbar />
-      <div className="Place" style={{ background: backgroundOrange }}>
+      <div className="Place" style={{ background: backgroundOrange, boxShadow: shadow }}>
         <LeftSite onBackgroundChange={handleBackgroundChange}/>
         <RightSite />
       </div>

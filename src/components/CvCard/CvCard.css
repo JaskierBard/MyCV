@@ -1,9 +1,9 @@
 .Place {
-    background: linear-gradient(to bottom right, #fef6e0, #ffe4d0);
+    /* background: linear-gradient(to bottom right, #fef6e0, #ffe4d0); */
     width: 1000px;
     height: 700px;
     border-radius: 0px 0px 10px 10px;
-    box-shadow: 15px 15px 10px rgba(0, 0, 0, 0.5);
+    /* box-shadow: 50px 50px 30px rgba(0, 0, 0, 0.5); */
     display: flex;
     user-select: none;
     position: relative;

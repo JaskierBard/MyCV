@@ -10,7 +10,7 @@ function App() {
   const [backgroundOrange, setBackgroundOrange] = useState<string>("linear-gradient(to bottom right, #ear2cc, #ebd0bc)");
   const [backgroundBlue, setBackgroundBlue] = useState<string>("linear-gradient(to bottom right, #93c3c3, #6a94ad)");
 
-  const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string) => {
+  const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
     setBackgroundOrange(backgroundOrange);
     backgroundBlue && setBackgroundBlue(backgroundBlue)
   };
