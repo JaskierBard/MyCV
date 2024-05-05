@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import "./CvCard.css";
 import { getImage } from "../../services/firebaseChatService";
 import Slider from "../Slider/Slider";
+import { ChooseLanguage } from "./Language/ChooseLanguage";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
@@ -44,6 +45,8 @@ export const LeftSite = (props:Props) => {
       {/* <Icons/> */}
       <section className="text">
       </section>
+      <ChooseLanguage icons={icons}/>
+
       <div className="shortAboutMe">Może to nie mnie szukałeś, ale właśnie mnie znalazłeś!</div>
     </div>
   );
