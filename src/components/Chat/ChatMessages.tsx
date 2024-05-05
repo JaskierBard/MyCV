@@ -15,6 +15,7 @@ import ChatSingleMessage from "./ChatSingleMessage";
 export interface Props {
   feedback: boolean;
   aboutMe: any;
+  background: string;
 }
 
 const ChatMessages = (props: Props) => {
@@ -118,7 +119,7 @@ const ChatMessages = (props: Props) => {
     <>
       {chatBeginAt && <ChatLimiter usage={usage} messages={messages} currentDate={chatBeginAt} blockInput={blockInput} userID = {userID} newMessageAwait={newMessageAwait}/>}
 
-      <div className="message-container" ref={messageContainerRef}>
+      <div className="message-container" ref={messageContainerRef} style={{background: props.background}}>
         <ChatSingleMessage messages={messages} newMessageAwait={newMessageAwait}/>
       </div>
       { blockedByTokenLimits ?(
@@ -126,7 +127,7 @@ const ChatMessages = (props: Props) => {
           Przekroczono dzienny limit tokenów
         </div>
       ) : (
-        <div className="input-container">
+        <div className="input-container" >
           <input
             type="text"
             value={inputValue}
@@ -134,6 +135,7 @@ const ChatMessages = (props: Props) => {
             onKeyDown={handleKeyDown}
             placeholder="zadaj mi pytanie..."
             className="input-field"
+            style={{background: props.background}}
           />
           <button onClick={handleSendMessage} className="send-button">
             Wyślij

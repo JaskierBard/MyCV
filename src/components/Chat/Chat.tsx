@@ -4,6 +4,7 @@ import ChatMessages from "./ChatMessages";
 
 export interface Props {
   aboutMe: any;
+  background:string
 }
 
 const Chat = (props: Props) => {
@@ -48,7 +49,7 @@ const Chat = (props: Props) => {
               </button>
             </div>
           </nav>
-          <ChatMessages feedback={tryToClose} aboutMe={props.aboutMe} />
+          <ChatMessages feedback={tryToClose} aboutMe={props.aboutMe} background={props.background}/>
         </div>
       )}
     </>

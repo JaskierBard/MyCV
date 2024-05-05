@@ -1,21 +1,32 @@
 import React, { useEffect, useState } from "react";
 import "./CvCard.css";
 import { getImage } from "../../services/firebaseChatService";
+import Slider from "../Slider/Slider";
+
+interface Props {
+  onBackgroundChange: (backgroundOrange: string, backgroundBlue: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+}
 
 
-
-export const LeftSite = () => {
+export const LeftSite = (props:Props) => {
     const [profilePicture, setProfilePicture] = useState<any>();
+    const [icons, setIcons] = useState<any>();
 
+    const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string ) => {
+      props.onBackgroundChange(backgroundOrange, backgroundBlue);
+  }
     useEffect(() => {
         (async () => {
             const pictures = await getImage('myPhotos')
+            const iconsURLs = await getImage('icons')
             setProfilePicture(pictures)
+            setIcons(iconsURLs)
         })();
       }, []);
 
   return (
     <div className="left">
+      <Slider icons={icons} onBackgroundChange={handleBackgroundChange}/>
       <h1 className="name">Mateusz Świderski</h1>
       <h2 className="x">Junior web developer</h2>
 
