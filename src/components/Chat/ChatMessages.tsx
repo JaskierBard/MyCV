@@ -16,6 +16,9 @@ export interface Props {
   feedback: boolean;
   aboutMe: any;
   background: string;
+  activeLanguage: {
+    [key: string]: string;
+  };
 }
 
 const ChatMessages = (props: Props) => {
@@ -25,7 +28,8 @@ const ChatMessages = (props: Props) => {
 
   const [usage, setUsage] = useState<any>([]);
 
-  const [blockedByTokenLimits, setBlockedByTokenLimits] = useState<boolean>(false);
+  const [blockedByTokenLimits, setBlockedByTokenLimits] =
+    useState<boolean>(false);
 
   const [chatBeginAt, setChatBeginAt] = useState<any>();
   const [userID, setUserID] = useState<any>();
@@ -37,7 +41,7 @@ const ChatMessages = (props: Props) => {
     setInputValue(e.target.value);
   };
   const blockInput = () => {
-    setBlockedByTokenLimits(true)
+    setBlockedByTokenLimits(true);
   };
   useEffect(() => {
     (async () => {
@@ -46,13 +50,17 @@ const ChatMessages = (props: Props) => {
       const userIDdata = await getIp();
       setUserID(userIDdata);
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
-      const newAiChat = new OpenAiChat(await getSystemPrompt('mainChat') + cutrrentDate);
+      const newAiChat = new OpenAiChat(
+        (await getSystemPrompt("mainChat")) + cutrrentDate
+      );
       setAiChat(newAiChat);
       if (data) {
         const prevMessages = data[1]?.history;
 
         if (prevMessages) {
-          newAiChat.initiateChat(prevMessages, { total_tokens: data[0]?.usedTokens });
+          newAiChat.initiateChat(prevMessages, {
+            total_tokens: data[0]?.usedTokens,
+          });
           setMessages(prevMessages);
           setUsage({ 0: { total_tokens: data[0]?.usedTokens } });
         }
@@ -91,7 +99,7 @@ const ChatMessages = (props: Props) => {
           ...prevState,
           ...aiChat.usage,
         }));
-        setNewMessageAwait(false)
+        setNewMessageAwait(false);
       }
 
       if (ans.toolCall) {
@@ -117,28 +125,43 @@ const ChatMessages = (props: Props) => {
 
   return (
     <>
-      {chatBeginAt && <ChatLimiter usage={usage} messages={messages} currentDate={chatBeginAt} blockInput={blockInput} userID = {userID} newMessageAwait={newMessageAwait}/>}
+      {chatBeginAt && (
+        <ChatLimiter
+          usage={usage}
+          messages={messages}
+          currentDate={chatBeginAt}
+          blockInput={blockInput}
+          userID={userID}
+          newMessageAwait={newMessageAwait}
+          activeLanguage={props.activeLanguage}
+        />
+      )}
 
-      <div className="message-container" ref={messageContainerRef} style={{background: props.background}}>
-        <ChatSingleMessage messages={messages} newMessageAwait={newMessageAwait}/>
+      <div
+        className="message-container"
+        ref={messageContainerRef}
+        style={{ background: props.background }}
+      >
+        <ChatSingleMessage
+          messages={messages}
+          newMessageAwait={newMessageAwait}
+        />
       </div>
-      { blockedByTokenLimits ?(
-        <div className="send-button">
-          Przekroczono dzienny limit tokenów
-        </div>
+      {blockedByTokenLimits ? (
+        <div className="send-button">Przekroczono dzienny limit tokenów</div>
       ) : (
-        <div className="input-container" >
+        <div className="input-container">
           <input
             type="text"
             value={inputValue}
             onChange={handleInputChange}
             onKeyDown={handleKeyDown}
-            placeholder="zadaj mi pytanie..."
+            placeholder={props.activeLanguage["placeholder"]}
             className="input-field"
-            style={{background: props.background}}
+            style={{ background: props.background }}
           />
           <button onClick={handleSendMessage} className="send-button">
-            Wyślij
+            {props.activeLanguage["send"]}
           </button>
         </div>
       )}

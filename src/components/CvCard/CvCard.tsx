@@ -8,6 +8,11 @@ import { ChooseLanguage } from "./Language/ChooseLanguage";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void;
+  chooseLanguage: (language: string)=>void;
+  activeLanguage: {
+    [key: string]: string;
+  };
+
 }
 const CvCard = (props:Props) => {
   const [backgroundOrange, setBackgroundOrange] = useState<string>("linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188))");
@@ -15,9 +20,12 @@ const CvCard = (props:Props) => {
   const [activeTab, setActiveTab] = useState<string>("");
 
 
+
   const handleActiveTabChange = (activeTab: string) => {
     setActiveTab(activeTab)
 };
+
+
 
   const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
     props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
@@ -26,9 +34,9 @@ const CvCard = (props:Props) => {
 };
   return (
     <div>
-      <Navbar handleActiveTabChange={handleActiveTabChange}/>
+      <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="Place" style={{ background: backgroundOrange, boxShadow: shadow }}>
-        <LeftSite onBackgroundChange={handleBackgroundChange}/>
+        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage}/>
         <RightSite activeTab={activeTab}/>
       </div>
     </div>

@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./ChooseLanguage.css";
 
 interface Props {
   icons: any;
+  chooseLanguage: (language: string) => void;
 }
 export const ChooseLanguage = (props: Props) => {
 
@@ -10,6 +11,9 @@ export const ChooseLanguage = (props: Props) => {
 
   const [activeIndex, setActiveIndex] = useState(0);
 
+  useEffect(() => {
+    props.chooseLanguage(languages[activeIndex])
+  }, [activeIndex]);
 
   const handleLanguageChange = () => {
     setActiveIndex(prev => (prev + 1) % languages.length);

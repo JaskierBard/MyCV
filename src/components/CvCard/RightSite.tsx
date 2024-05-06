@@ -8,11 +8,13 @@ interface Props {
 }
 
 export const RightSite: React.FC<Props> = ({ activeTab }) => {
+
+  
   return (
     <div className="right">
       {activeTab === "CV" && <button className="button">Pobierz CV</button>}
       {activeTab === "O mnie" && <AboutMe />}
-      {activeTab === "Portfolio" && <div>Portfolio</div>}
+      {activeTab === "Portfolio" && <div>Projekty</div>}
       {activeTab === "Umiejętności" && <div>Umiejętności</div>}
     </div>
   );

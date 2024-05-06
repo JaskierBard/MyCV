@@ -6,6 +6,7 @@ import { ChooseLanguage } from "./Language/ChooseLanguage";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  chooseLanguage: (language: string)=>void;
 }
 
 
@@ -45,7 +46,7 @@ export const LeftSite = (props:Props) => {
       {/* <Icons/> */}
       <section className="text">
       </section>
-      <ChooseLanguage icons={icons}/>
+      <ChooseLanguage icons={icons} chooseLanguage={props.chooseLanguage}/>
 
       <div className="shortAboutMe">Może to nie mnie szukałeś, ale właśnie mnie znalazłeś!</div>
     </div>

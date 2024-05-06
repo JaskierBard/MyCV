@@ -3,6 +3,9 @@ import "./Navbar.css";
 
 interface Props {
   handleActiveTabChange: (tab: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  activeLanguage: {
+    [key: string]: string;
+  };
 }
 
 export const Navbar = (props: Props) => {
@@ -20,21 +23,21 @@ export const Navbar = (props: Props) => {
         onClick={() => handleTabClick("O mnie")}
         className={activeTab === "O mnie" ? "active" : ""}
       >
-        O mnie
+        {props.activeLanguage['about']}
       </h2>
       <h2
         onClick={() => handleTabClick("Portfolio")}
         className={activeTab === "Portfolio" ? "active" : ""}
       >
-        Portfolio
+        {props.activeLanguage['portfolio']}
       </h2>
       <h2
         onClick={() => handleTabClick("Umiejętności")}
         className={activeTab === "Umiejętności" ? "active" : ""}
       >
-        Umiejętności
+        {props.activeLanguage['skills']}
       </h2>
-      <button className="button">Pobierz CV</button>
+      <button className="button">{props.activeLanguage['downloadCV']}</button>
     </div>
   );
 };

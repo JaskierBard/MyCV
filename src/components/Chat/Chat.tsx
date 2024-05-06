@@ -4,7 +4,10 @@ import ChatMessages from "./ChatMessages";
 
 export interface Props {
   aboutMe: any;
-  background:string
+  background: string;
+  activeLanguage: {
+    [key: string]: string;
+  };
 }
 
 const Chat = (props: Props) => {
@@ -29,7 +32,7 @@ const Chat = (props: Props) => {
     <>
       {!isOpen && (
         <button className="open-button" onClick={toggleChat}>
-          Otwórz czat
+          {props.activeLanguage['chat']}
         </button>
       )}
       {isOpen && (
@@ -39,7 +42,7 @@ const Chat = (props: Props) => {
           }`}
         >
           <nav className="nav">
-            <div className="name">MateuszBot</div>
+            <div className="bot-name">MateuszBot</div>
             <div>
               <button className="fullscreen-button" onClick={toFullscreen}>
                 [ ]
@@ -49,7 +52,12 @@ const Chat = (props: Props) => {
               </button>
             </div>
           </nav>
-          <ChatMessages feedback={tryToClose} aboutMe={props.aboutMe} background={props.background}/>
+          <ChatMessages
+            feedback={tryToClose}
+            aboutMe={props.aboutMe}
+            background={props.background}
+            activeLanguage={props.activeLanguage}
+          />
         </div>
       )}
     </>
