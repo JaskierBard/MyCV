@@ -21,6 +21,11 @@
     color: var(--beige);
     padding: 3px 20px;
   }
+
+  .Nav > h2:hover {
+    text-decoration-line:underline;
+
+  }
   
   .Nav > h2:last-of-type {
     padding-right: 60px;
@@ -54,5 +59,9 @@
   .button:active {
     background-color: #cc5c3b;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  }
+
+  .active {
+    text-decoration-line:underline;
   }
   

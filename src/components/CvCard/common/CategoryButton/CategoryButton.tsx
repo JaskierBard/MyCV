@@ -14,7 +14,7 @@ export const CategoryButton: React.FC<Props>= ({ label, content, onClick, isCont
       <div className="categoryTab">
         <div className="tab" onClick={onClick}>
           <div className="dot">
-            <div className="smallDot"></div>
+            <div className="smallDot">Icons</div>
           </div>
           <div className="label">{label}</div>
         </div>
