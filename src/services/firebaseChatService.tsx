@@ -90,20 +90,39 @@ export const getAboutMe = async () => {
     return {};
   }
 };
-
 export const getImage = async (folder: string) => {
   try {
     const storageRef = ref(FIREBASE_STORAGE, `${folder}`);
     const result = await listAll(storageRef);
-    const imageUrls = await Promise.all(
+    
+    const imageUrls: Record<string, string> = {}; // Deklarujemy obiekt, który będzie przechowywał pary klucz-wartość
+
+    await Promise.all(
       result.items.map(async (itemRef) => {
         const url = await getDownloadURL(itemRef);
-        return { [itemRef.name]: url };
+        imageUrls[itemRef.name] = url; // Przypisujemy url do właściwości obiektu o nazwie itemRef.name
       })
     );
-    return imageUrls;
+    
+    return imageUrls; // Zwracamy obiekt zamiast tablicy
   } catch (error) {
     console.error("Błąd podczas pobierania danych:", error);
-    return [];
+    return {};
   }
 };
+// export const getImage = async (folder: string) => {
+//   try {
+//     const storageRef = ref(FIREBASE_STORAGE, `${folder}`);
+//     const result = await listAll(storageRef);
+//     const imageUrls = await Promise.all(
+//       result.items.map(async (itemRef) => {
+//         const url = await getDownloadURL(itemRef);
+//         return { [itemRef.name]: url };
+//       })
+//     );
+//     return imageUrls;
+//   } catch (error) {
+//     console.error("Błąd podczas pobierania danych:", error);
+//     return [];
+//   }
+// };

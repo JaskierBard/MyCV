@@ -2,6 +2,8 @@
     --dark-blue: #152031;
     --beige: #fef6e0;
     --orange: #fe754f;
+    --background: linear-gradient(to bottom right, #fef6e0, #ffe4d0);
+
   }
 
   body {

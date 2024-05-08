@@ -9,6 +9,9 @@ export interface Props {
   usage: undefined | object;
   currentDate: string;
   blockInput: () => void;
+  activeLanguage: {
+    [key: string]: string;
+  };
 }
 
 const ChatLimiter = (props: Props) => {
@@ -44,7 +47,7 @@ const ChatLimiter = (props: Props) => {
         className="chat-limiter-toggler"
         onClick={() => setIsOpen(!isOpen)}
       >
-        limits {isOpen && `pozostało: ${15000 - usedUserToken} tokenów`}
+        {props.activeLanguage['limits']} {isOpen && `pozostało: ${15000 - usedUserToken} tokenów`}
       </button>
     </>
   );

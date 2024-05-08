@@ -40,7 +40,7 @@
   height: calc(100% - 80px);
   flex-direction: column;
   overflow-y: auto;
-  background-color: var(--beige);
+  background: linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188));
   box-shadow: inset 0 1px 5px black;
 }
 
@@ -78,10 +78,9 @@
   flex: 1;
   padding: 8px;
   border-radius: 5px;
-  background-color: var(--beige);
 }
 
-.name {
+.bot-name {
   padding: 5px;
   font-weight: bolder;
   align-self: flex-start;
@@ -111,6 +110,8 @@
 
 .send-button {
   margin-left: 5px;
+  width: 30%;
+
 }
 
 .picture{
