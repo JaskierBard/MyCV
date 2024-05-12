@@ -35,7 +35,7 @@ const CvCard = (props:Props) => {
   return (
     <div>
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
-      <div className="Place" style={{ background: backgroundOrange, boxShadow: shadow }}>
+      <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
         <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage}/>
         <RightSite activeTab={activeTab}/>
       </div>

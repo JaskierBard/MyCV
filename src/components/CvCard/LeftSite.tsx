@@ -28,7 +28,6 @@ export const LeftSite = (props:Props) => {
 
   return (
     <div className="left">
-      <Slider icons={icons} onBackgroundChange={handleBackgroundChange}/>
       <h1 className="name">Mateusz Świderski</h1>
       <h2 className="x">Junior web developer</h2>
 
@@ -44,11 +43,14 @@ export const LeftSite = (props:Props) => {
       </div>
 
       {/* <Icons/> */}
-      <section className="text">
-      </section>
+      
+      <div className="shortAboutMe">status: Poszukujący pracy</div>
+
+
+      <Slider icons={icons} onBackgroundChange={handleBackgroundChange}/>
       <ChooseLanguage icons={icons} chooseLanguage={props.chooseLanguage}/>
 
-      <div className="shortAboutMe">Może to nie mnie szukałeś, ale właśnie mnie znalazłeś!</div>
+
     </div>
   );
 };

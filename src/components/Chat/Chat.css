@@ -1,5 +1,20 @@
+@media (min-width: 1000px) {
+  .chat-container {
+    position: fixed;
+
+  }
+
+  
+}
+
+@media (min-width: 250px) {
+  .chat-container {
+    position: fixed;
+  }
+
+}
+
 .chat-container {
-  position: absolute;
   bottom: 10px;
   right: 10px;
   width: 350px;
@@ -101,10 +116,11 @@
 }
 
 .open-button {
-  position: absolute;
+  position: fixed;
+  /* position: absolute; */
   width: 350px;
-  bottom: 10px;
-  right: 10px;
+  bottom: 4px;
+  right: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 

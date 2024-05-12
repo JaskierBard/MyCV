@@ -5,10 +5,11 @@ type Props = {
     label: string;
     content: string;
     onClick: () => void; // dodajemy props onClick
-    isContentVisible: boolean; // dodajemy props isContentVisible
+    isContentVisible: boolean;
+    icon: string;
 };
 
-export const CategoryButton: React.FC<Props>= ({ label, content, onClick, isContentVisible }) => {
+export const CategoryButton: React.FC<Props>= ({ label, content, onClick, isContentVisible, icon }) => {
   return (
     <>
       <div className="categoryTab">
