@@ -22,8 +22,11 @@ export const LeftSite = (props:Props) => {
 
     switch (choice) {
       case 'github':
+        console.log(props.aboutMe.personalDetails[choice])
+
         return  window.open(props.aboutMe.personalDetails[choice],'_blank')
       case 'linkedIn':
+        console.log(props.aboutMe.personalDetails[choice])
         return  window.open(props.aboutMe.personalDetails[choice],'_blank')
       case 'email':
         const composeEmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(props.aboutMe.personalDetails[choice])}`;

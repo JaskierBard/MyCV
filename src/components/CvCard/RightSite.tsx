@@ -71,6 +71,7 @@ export const RightSite = (props: Props) => {
           onClick={() => handleButtonClick(Object.keys(item)[0])}
           isContentVisible={activeButton === Object.keys(item)[0]}
           icon={props.icons && props.icons[`${Object.keys(item)[0]}.png`]}
+          botIcon={props.icons && props.icons[`ask-bot.png`]}
         />
       ))}
     </div>

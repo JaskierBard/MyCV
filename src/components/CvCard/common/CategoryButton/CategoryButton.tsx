@@ -3,10 +3,10 @@ import "./CategoryButton.css";
 type Props = {
   label: string;
   content: [string] | string;
-
+  botIcon: string;
   onClick: () => void;
   isContentVisible: boolean;
-  icon: string;
+  icon: any;
 };
 
 export const CategoryButton: React.FC<Props> = ({
@@ -15,10 +15,18 @@ export const CategoryButton: React.FC<Props> = ({
   onClick,
   isContentVisible,
   icon,
+  botIcon
 }) => {
+
+  const handleAskBot = (label:string) => {
+    const ask = `chcę wiedzieć więcej o ${label}`
+    console.log(ask);
+
+}
   return (
     <>
       <div className="categoryTab">
+        <img src={botIcon} className="ask-bot" onClick={()=> handleAskBot(label)}></img>
         <div className="tab" onClick={onClick}>
           <div className="dot">
             <div className="smallDot">
