@@ -93,6 +93,8 @@
   flex: 1;
   padding: 8px;
   border-radius: 5px;
+  background: linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188));
+
 }
 
 .bot-name {

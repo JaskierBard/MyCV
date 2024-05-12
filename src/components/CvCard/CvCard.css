@@ -13,10 +13,10 @@
 
 /* Right */
 .right {
-  background-color: #6991cc;
+  /* background-color: #6991cc; */
   width: 600px;
-  padding-top: 20px;
-  padding-bottom: 50px;
+  /* padding-top: 20px; */
+  padding-bottom: 20px;
   /* margin-left: 20px; */
 }
 .categoryTab {
@@ -70,10 +70,9 @@
 .content {
   background-color: rgba(0, 0, 0, 0.163);
   border-radius: 0 0 5px 5px;
-
-  margin-left: 65px;
-  height: 480px;
-  /* width: 78%; */
+  margin-left: 40px;
+  height: 460px;
+  width: 80%;
   font-weight: 500;
   color: var(--dark-blue);
   padding: 5px;
@@ -84,6 +83,12 @@
   width: 400px;
   height: 700px;
   /* background-color: rgba(111, 197, 197, 0.514); */
+}
+
+.links-icon {
+  width: 30px;
+  margin-left: 10px;
+  cursor: pointer;
 }
 .container1 {
   position: relative;
@@ -164,19 +169,19 @@
 }
 
 .shortAboutMe {
-  color: #152031;
-  border: 1px solid #6fa5b3;
+  color: var(--dark-blue);
+  border: 2px solid #6fa5b3;
   margin-left: 5px;
   border-radius: 5px;
   text-align: center;
   /* margin-top: 10px; */
   /* font-weight: bold; */
-  /* width: 97%; */
-  height: 200px;
+  width: 95%;
+  height: 100px;
   /* position: absolute; */
   bottom: 5px;
-  /* font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
-    "Lucida Sans Unicode", Geneva, Verdana, sans-serif; */
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
+    "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 4;
 }
 

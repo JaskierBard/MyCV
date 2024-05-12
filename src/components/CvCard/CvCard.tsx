@@ -12,6 +12,7 @@ interface Props {
   activeLanguage: {
     [key: string]: string;
   };
+  aboutMe:any;
 
 }
 const CvCard = (props:Props) => {
@@ -44,8 +45,8 @@ useEffect(() => {
     <div>
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
-        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} icons={icons}/>
-        <RightSite activeTab={activeTab} icons={icons}/>
+        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} icons={icons} aboutMe={props.aboutMe}/>
+        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons}/>
       </div>
     </div>
   );

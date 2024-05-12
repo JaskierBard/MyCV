@@ -7,7 +7,8 @@ import { ChooseLanguage } from "./Language/ChooseLanguage";
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
   chooseLanguage: (language: string)=>void;
-  icons:string[];
+  icons:any;
+  aboutMe: any;
 }
 
 
@@ -17,6 +18,20 @@ export const LeftSite = (props:Props) => {
     const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
       props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
   }
+  const onClickHandle = (choice: string,) => {
+
+    switch (choice) {
+      case 'github':
+        return  window.open(props.aboutMe.personalDetails[choice],'_blank')
+      case 'linkedIn':
+        return  window.open(props.aboutMe.personalDetails[choice],'_blank')
+      case 'email':
+        const composeEmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(props.aboutMe.personalDetails[choice])}`;
+        return window.open(composeEmailUrl, '_blank');
+      default:
+        return null;
+    }
+}
     useEffect(() => {
         (async () => {
             const pictures = await getImage('myPhotos')
@@ -42,7 +57,13 @@ export const LeftSite = (props:Props) => {
 
       {/* <Icons/> */}
       
-      <div className="shortAboutMe">status: Poszukujący pracy</div>
+      <div className="shortAboutMe">
+        <div>Jestem otwarty na oferty pracy</div>
+      <img src={props.icons && props.icons['github-color.png']} className="links-icon" onClick={() =>onClickHandle('github')}></img>
+      <img src={props.icons && props.icons['linkedin-color.png']} className="links-icon" onClick={() =>onClickHandle('linkedIn')}></img>
+      <img src={props.icons && props.icons['gmail-color.png']} className="links-icon" onClick={() =>onClickHandle('email')}></img>
+
+      </div>
 
 
       <Slider icons={props.icons} onBackgroundChange={handleBackgroundChange}/>

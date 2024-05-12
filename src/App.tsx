@@ -79,6 +79,7 @@ function App() {
         onBackgroundChange={handleBackgroundChange}
         chooseLanguage={chooseLanguage}
         activeLanguage={activeLanguage}
+        aboutMe={aboutMe}
       />
       <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage}/>
     </div>

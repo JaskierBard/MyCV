@@ -5,15 +5,16 @@ import { CategoryButton } from "./common/CategoryButton/CategoryButton";
 interface Props {
   activeTab: string;
   icons: { [key: string]: string };
+  aboutMe: any;
 }
 
 interface CategoryItem {
-  [key: string]: string;
+  [key: string]: [string] | string;
 }
 
 export const RightSite = (props: Props) => {
   const [activeButton, setActiveButton] = useState("");
-
+// console.log(props.aboutMe)
   const AboutMeData: CategoryItem[] = [
     { 'about-me': 'więcej o mnie' },
     { 'skills': 'edukacja' },
@@ -22,18 +23,24 @@ export const RightSite = (props: Props) => {
   ];
 
   const PortfolioData: CategoryItem[] = [
-    { 'Gapp': 'Gapp' },
-    { 'Gothinczuyk': 'Gothinczyk' },
-    { 'HeadHunters': 'Headhunters' },
-    { 'PomodoroEq': 'PomodoroEq' }
+    { 'Gapp': props.aboutMe?.projects.Gapp.description || '' },
+    { 'Gothinczyk': props.aboutMe?.projects.Gothińczyk.description || '' },
+    { 'HeadHunter': props.aboutMe?.projects.HeadHunter.description || ''},
+    { 'PomodoroEq': props.aboutMe?.projects.PomodoroEq.description || ''}
   ];
 
   const SkillsData: CategoryItem[] = [
-    { 'frontend': 'Frontend' },
-    { 'backend': 'Backend' },
-    { 'ai': 'AI' },
-    { 'tools': 'OtherTools' }
+    { 'frontend': props.aboutMe?.skills.frontend || [] },
+    { 'backend': props.aboutMe?.skills.backend || [] },
+    { 'ai': props.aboutMe?.skills?.AI || [] },
+    { 'tools': props.aboutMe?.skills?.otherTools || [] }
   ];
+
+  const Welcome: CategoryItem[] = [
+    { 'Witaj!': ' Witaj na moim CV. Znajdziesz tutaj trochę informacji o mnie w poszczególnych zakładkach lub po prostu zapytaj o to mojego bota'},
+    
+  ];
+  
 
   const getCategoryData = (category: string): CategoryItem[] => {
     switch (category) {
@@ -44,7 +51,7 @@ export const RightSite = (props: Props) => {
       case 'Skills':
         return SkillsData;
       default:
-        return [];
+        return Welcome;
     }
   };
 
