@@ -6,6 +6,7 @@ interface Props {
   activeTab: string;
   icons: { [key: string]: string };
   aboutMe: any;
+  askBot: (ask: string)=>void;
 }
 
 interface CategoryItem {
@@ -72,6 +73,7 @@ export const RightSite = (props: Props) => {
           isContentVisible={activeButton === Object.keys(item)[0]}
           icon={props.icons && props.icons[`${Object.keys(item)[0]}.png`]}
           botIcon={props.icons && props.icons[`ask-bot.png`]}
+          askBot={props.askBot}
         />
       ))}
     </div>

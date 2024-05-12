@@ -39,9 +39,12 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
 
 function App() {
   const [aboutMe, setAboutMe] = useState<any>();
+  const [questionBot, setQuestionBot] = useState<string>();
+
   const [activeLanguage, setActiveLanguage] = useState<{
     [key: string]: string;
   }>(tabNames['Polish']);
+
   const [backgroundOrange, setBackgroundOrange] = useState<string>(
     "linear-gradient(to bottom right, #ear2cc, #ebd0bc)"
   );
@@ -62,6 +65,10 @@ function App() {
     setActiveLanguage(tabNames[activeLanguage]);
   };
 
+  const askBot = (ask: string) => {
+    setQuestionBot(ask);
+  };
+
   useEffect(() => {
     (async () => {
       const data = await getAboutMe();
@@ -80,8 +87,9 @@ function App() {
         chooseLanguage={chooseLanguage}
         activeLanguage={activeLanguage}
         aboutMe={aboutMe}
+        askBot={askBot}
       />
-      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage}/>
+      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage} questionBot={questionBot}/>
     </div>
   );
 }

@@ -19,6 +19,7 @@ export interface Props {
   activeLanguage: {
     [key: string]: string;
   };
+  questionBot: string | undefined;
 }
 
 const ChatMessages = (props: Props) => {
@@ -67,6 +68,19 @@ const ChatMessages = (props: Props) => {
       }
     })();
   }, []);
+// potem odkomentować ":) "
+  // useEffect(() => {
+  //   (async () => {
+      
+  //     if (props.questionBot !== undefined && aiChat !== undefined) {
+  //       setNewMessageAwait(true);
+  //       console.log(props.questionBot)
+  //       await AImessage(props.questionBot);
+  //   }
+  // })();
+
+  // }, [props.questionBot, aiChat]);
+
 
   const handleSendMessage = async () => {
     if (inputValue.trim() !== "") {

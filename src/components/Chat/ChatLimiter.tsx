@@ -36,7 +36,7 @@ const ChatLimiter = (props: Props) => {
   }, [props.usage]);
 
   useEffect(() => {
-    if (usedUserToken>11000 || totalTokenLimits>20000) {
+    if (usedUserToken>111000 || totalTokenLimits>210000) {
       props.blockInput();
     }
   }, [usedUserToken]);
