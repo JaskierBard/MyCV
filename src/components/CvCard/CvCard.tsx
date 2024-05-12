@@ -47,7 +47,7 @@ useEffect(() => {
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
         <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} icons={icons} aboutMe={props.aboutMe}/>
-        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons} askBot={props.askBot}/>
+        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons} askBot={props.askBot} activeLanguage={props.activeLanguage}/>
       </div>
     </div>
   );

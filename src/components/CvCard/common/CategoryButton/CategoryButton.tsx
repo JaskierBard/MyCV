@@ -8,6 +8,9 @@ type Props = {
   askBot: (ask:string) => void;
   isContentVisible: boolean;
   icon: any;
+  activeLanguage: {
+    [key: string]: string;
+  };
 };
 
 export const CategoryButton: React.FC<Props> = ({
@@ -15,14 +18,14 @@ export const CategoryButton: React.FC<Props> = ({
   content,
   onClick,
   askBot,
-
+  activeLanguage,
   isContentVisible,
   icon,
   botIcon
 }) => {
 
   const handleAskBot = (label:string) => {
-    const ask = `chcę wiedzieć więcej o ${label}`
+    const ask = `${activeLanguage['answer']} ${label}`
     askBot(ask)
 
 }

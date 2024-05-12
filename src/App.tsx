@@ -14,6 +14,15 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
     about: "O mnie",
     skills: "Umiejętności",
     downloadCV: "Pobierz CV",
+    answer: "Zmień język rozmowy na Polski. Opowiedz mi więcej o: ",
+    interests: "zainteresowania",
+    ai: "sztuczna inteligencja",
+    tools: "pozostałe narzędzia",
+    education: "edukacja",
+    frontend: "frontend",
+    backend: "backend",
+
+
   },
   UnitedKingdom: {
     send: 'send',
@@ -22,8 +31,19 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
     placeholder: "ask me a question...",
     portfolio: "Portfolio",
     about: "About me",
-    skills: "Skills",
+    skills: "skills",
     downloadCV: "Download CV",
+    answer: "Zmień język rozmowy na angielski. Tell me more about:  ",
+    interests: "intersts",
+    ai: "artificial intelligence",
+    tools: "other tools",
+    education: "education",
+    frontend: "frontend",
+    backend: "backend",
+
+
+
+
   },
   Deutsch: {
     send: 'schicken',
@@ -34,6 +54,16 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
     about: "Über mich",
     skills: "Fähigkeiten",
     downloadCV: "Lebenslauf herunterladen",
+    answer: "Zmień język rozmowy na niemiecki to ważne. Nie pros o zmianę języka i odpowiadaj po Niemiecku jak najlepiej umiesz. Erzähl mir mehr von:  ",
+    interests: "Interessen",
+    ai: "künstliche Intelligenz",
+    tools: "andere Werkzeuge",
+    education: "Ausbildung",
+    frontend: "frontend",
+    backend: "backend",
+
+
+
   },
 };
 
@@ -55,7 +85,6 @@ function App() {
   const handleBackgroundChange = (
     backgroundOrange: string,
     backgroundBlue: string,
-    shadow: string
   ) => {
     setBackgroundOrange(backgroundOrange);
     backgroundBlue && setBackgroundBlue(backgroundBlue);

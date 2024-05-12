@@ -69,17 +69,17 @@ const ChatMessages = (props: Props) => {
     })();
   }, []);
 // potem odkomentować ":) "
-  // useEffect(() => {
-  //   (async () => {
+  useEffect(() => {
+    (async () => {
       
-  //     if (props.questionBot !== undefined && aiChat !== undefined) {
-  //       setNewMessageAwait(true);
-  //       console.log(props.questionBot)
-  //       await AImessage(props.questionBot);
-  //   }
-  // })();
+      if (props.questionBot !== undefined && aiChat !== undefined) {
+        setNewMessageAwait(true);
+        console.log(props.questionBot)
+        await AImessage(props.questionBot);
+    }
+  })();
 
-  // }, [props.questionBot, aiChat]);
+  }, [props.questionBot, aiChat]);
 
 
   const handleSendMessage = async () => {

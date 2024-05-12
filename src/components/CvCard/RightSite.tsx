@@ -7,7 +7,9 @@ interface Props {
   icons: { [key: string]: string };
   aboutMe: any;
   askBot: (ask: string)=>void;
-}
+  activeLanguage: {
+    [key: string]: string;
+  };}
 
 interface CategoryItem {
   [key: string]: [string] | string;
@@ -20,7 +22,7 @@ export const RightSite = (props: Props) => {
     { 'about-me': 'więcej o mnie' },
     { 'skills': 'edukacja' },
     { 'education': 'Przycisk 3' },
-    { 'interests': 'umiejętności' }
+    { 'interests': 'zainteres' }
   ];
 
   const PortfolioData: CategoryItem[] = [
@@ -67,13 +69,14 @@ export const RightSite = (props: Props) => {
       {categoryData.map((item, index) => (
         <CategoryButton
           key={index}
-          label={Object.keys(item)[0]}
+          label={props.activeTab === 'Portfolio' ? Object.keys(item)[0] :props.activeLanguage[`${Object.keys(item)[0]}`]}
           content={Object.values(item)[0]}
           onClick={() => handleButtonClick(Object.keys(item)[0])}
           isContentVisible={activeButton === Object.keys(item)[0]}
           icon={props.icons && props.icons[`${Object.keys(item)[0]}.png`]}
           botIcon={props.icons && props.icons[`ask-bot.png`]}
           askBot={props.askBot}
+          activeLanguage= {props.activeLanguage}
         />
       ))}
     </div>
