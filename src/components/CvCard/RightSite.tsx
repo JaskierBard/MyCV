@@ -4,33 +4,38 @@ import { CategoryButton } from "./common/CategoryButton/CategoryButton";
 
 interface Props {
   activeTab: string;
+  icons: { [key: string]: string };
+}
+
+interface CategoryItem {
+  [key: string]: string;
 }
 
 export const RightSite = (props: Props) => {
   const [activeButton, setActiveButton] = useState("");
 
-  const AboutMeData = [
-    { 'więcej o mnie': 'więcej o mnie' },
-    { 'edukacja': 'edukacja' },
-    { 'Przycisk 3': 'Przycisk 3' },
-    { 'Umiejętności': 'umiejętności' }
+  const AboutMeData: CategoryItem[] = [
+    { 'about-me': 'więcej o mnie' },
+    { 'skills': 'edukacja' },
+    { 'education': 'Przycisk 3' },
+    { 'interests': 'umiejętności' }
   ];
 
-  const PortfolioData = [
+  const PortfolioData: CategoryItem[] = [
     { 'Gapp': 'Gapp' },
     { 'Gothinczuyk': 'Gothinczyk' },
     { 'HeadHunters': 'Headhunters' },
     { 'PomodoroEq': 'PomodoroEq' }
   ];
 
-  const SkillsData = [
-    { 'Frontend': 'Frontend' },
-    { 'Backend': 'Backend' },
-    { 'AI': 'AI' },
-    { 'OtherTools': 'OtherTools' }
+  const SkillsData: CategoryItem[] = [
+    { 'frontend': 'Frontend' },
+    { 'backend': 'Backend' },
+    { 'ai': 'AI' },
+    { 'tools': 'OtherTools' }
   ];
 
-  const getCategoryData = (category: string) => {
+  const getCategoryData = (category: string): CategoryItem[] => {
     switch (category) {
       case 'AboutMe':
         return AboutMeData;
@@ -58,7 +63,7 @@ export const RightSite = (props: Props) => {
           content={Object.values(item)[0]}
           onClick={() => handleButtonClick(Object.keys(item)[0])}
           isContentVisible={activeButton === Object.keys(item)[0]}
-          icon=""
+          icon={props.icons && props.icons[`${Object.keys(item)[0]}.png`]}
         />
       ))}
     </div>

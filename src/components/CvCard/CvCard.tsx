@@ -18,6 +18,7 @@ const CvCard = (props:Props) => {
   const [backgroundOrange, setBackgroundOrange] = useState<string>("linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188))");
   const [shadow, setShadow] = useState<string>("15px 15px 10px rgba(0, 0, 0, 0.5)");
   const [activeTab, setActiveTab] = useState<string>("");
+  const [icons, setIcons] = useState<any>();
 
 
 
@@ -25,6 +26,13 @@ const CvCard = (props:Props) => {
     setActiveTab(activeTab)
 };
 
+
+useEffect(() => {
+  (async () => {
+      const iconsURLs = await getImage('icons')
+      setIcons(iconsURLs)
+  })();
+}, []);
 
 
   const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
@@ -36,8 +44,8 @@ const CvCard = (props:Props) => {
     <div>
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
-        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage}/>
-        <RightSite activeTab={activeTab}/>
+        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} icons={icons}/>
+        <RightSite activeTab={activeTab} icons={icons}/>
       </div>
     </div>
   );

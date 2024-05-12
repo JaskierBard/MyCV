@@ -1,10 +1,9 @@
-import React, { useState } from "react";
 import "./CategoryButton.css";
 
 type Props = {
     label: string;
     content: string;
-    onClick: () => void; // dodajemy props onClick
+    onClick: () => void;
     isContentVisible: boolean;
     icon: string;
 };
@@ -15,7 +14,7 @@ export const CategoryButton: React.FC<Props>= ({ label, content, onClick, isCont
       <div className="categoryTab">
         <div className="tab" onClick={onClick}>
           <div className="dot">
-            <div className="smallDot">Icons</div>
+            <div className="smallDot"><img src={icon}></img></div>
           </div>
           <div className="label">{label}</div>
         </div>

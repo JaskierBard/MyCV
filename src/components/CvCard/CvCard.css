@@ -51,10 +51,13 @@
 }
 
 .smallDot {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   background-color: #6fa5b3;
   border-radius: 50%;
+  display: flex;
+  align-items: center;
+
 }
 
 .label {

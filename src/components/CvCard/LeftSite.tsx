@@ -7,12 +7,12 @@ import { ChooseLanguage } from "./Language/ChooseLanguage";
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
   chooseLanguage: (language: string)=>void;
+  icons:string[];
 }
 
 
 export const LeftSite = (props:Props) => {
     const [profilePicture, setProfilePicture] = useState<any>();
-    const [icons, setIcons] = useState<any>();
 
     const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
       props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
@@ -20,9 +20,7 @@ export const LeftSite = (props:Props) => {
     useEffect(() => {
         (async () => {
             const pictures = await getImage('myPhotos')
-            const iconsURLs = await getImage('icons')
             setProfilePicture(pictures)
-            setIcons(iconsURLs)
         })();
       }, []);
 
@@ -47,8 +45,8 @@ export const LeftSite = (props:Props) => {
       <div className="shortAboutMe">status: Poszukujący pracy</div>
 
 
-      <Slider icons={icons} onBackgroundChange={handleBackgroundChange}/>
-      <ChooseLanguage icons={icons} chooseLanguage={props.chooseLanguage}/>
+      <Slider icons={props.icons} onBackgroundChange={handleBackgroundChange}/>
+      <ChooseLanguage icons={props.icons} chooseLanguage={props.chooseLanguage}/>
 
 
     </div>
