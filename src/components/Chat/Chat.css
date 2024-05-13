@@ -184,3 +184,10 @@
   z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
 
 }
+
+.warning {
+  color: var(--orange);
+  font-weight: 500;
+  margin-top: 10px;
+text-align: center
+}

@@ -74,7 +74,7 @@ const ChatSingleMessage = (props: Props) => {
       {props.newMessageAwait && <div className="ai-message" style={{width:15}}><span>{".".repeat(dotsCount)}</span></div>}
       {fullscreenImg && (
         <div id="fullscreen">
-          <img src={fullscreenImg}></img>
+          <img src={fullscreenImg} alt="fullscreen_picture"></img>
           <button onClick={()=> setFullscreenImg(null)}>Zamknij</button>
         </div>
       )}

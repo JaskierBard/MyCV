@@ -7,6 +7,7 @@ import CvCard from "./components/CvCard/CvCard";
 const tabNames: { [key: string]: { [key: string]: string } } = {
   Polish: {
     send: 'wyślij',
+    tokenWarning: ' Przekroczono dzienny limit tokenów',
     limits: 'ograniczenia',
     chat: "Otwórz czat",
     placeholder: "zadaj mi pytanie...",
@@ -26,6 +27,7 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
   },
   UnitedKingdom: {
     send: 'send',
+    tokenWarning: 'Daily token limit exceeded',
     limits: 'limits',
     chat: "Open Chat",
     placeholder: "ask me a question...",
@@ -47,6 +49,7 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
   },
   Deutsch: {
     send: 'schicken',
+    tokenWarning: 'Das tägliche Token-Limit wurde überschritten',
     limits: 'Einschränkungen',
     chat: "Chat öffnen",
     placeholder: "Stellen Sie mir eine Frage...",

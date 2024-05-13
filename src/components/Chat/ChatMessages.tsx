@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
 import {
-  addToConversation,
   checkUserByDateAndIp,
   getSystemPrompt,
 } from "../../services/firebaseChatService";
@@ -163,7 +162,7 @@ const ChatMessages = (props: Props) => {
         />
       </div>
       {blockedByTokenLimits ? (
-        <div className="send-button">Przekroczono dzienny limit tokenów</div>
+        <div className="warning">{props.activeLanguage['tokenWarning']}</div>
       ) : (
         <div className="input-container">
           <input

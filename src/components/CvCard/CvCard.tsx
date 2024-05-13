@@ -4,7 +4,6 @@ import { LeftSite } from "./LeftSite";
 import { Navbar } from "./Navbar/Navbar";
 import { RightSite } from "./RightSite";
 import { getImage } from "../../services/firebaseChatService";
-import { ChooseLanguage } from "./Language/ChooseLanguage";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void;
