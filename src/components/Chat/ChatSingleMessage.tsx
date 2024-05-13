@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Chat.css";
 import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
+import FullscreenImg from "./FullscreenImg";
 
 export interface Props {
   messages: any;
@@ -24,6 +25,7 @@ const ChatSingleMessage = (props: Props) => {
 
   return (
     <>
+
       {props.messages.map(
         (
           message: { role: string; content: string },
@@ -38,7 +40,9 @@ const ChatSingleMessage = (props: Props) => {
           >
             <span
               dangerouslySetInnerHTML={{
-                __html: (message.content),
+                // __html: (message.content),
+                __html: convertTextToHyperlinks(message.content),
+
               }}
             />
           </div>
@@ -46,6 +50,8 @@ const ChatSingleMessage = (props: Props) => {
         )
       )}
       {props.newMessageAwait && <div className="ai-message" style={{width:15}}><span>{".".repeat(dotsCount)}</span></div>}
+      <FullscreenImg/> 
+
     </>
   );
 };

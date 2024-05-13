@@ -11,6 +11,8 @@ import { getDate } from "../../utils/getDate";
 import { getIp } from "../../utils/getIp";
 import ChatLimiter from "./ChatLimiter";
 import ChatSingleMessage from "./ChatSingleMessage";
+import GalleryComponent from "./FullscreenImg";
+import FullscreenImg from "./FullscreenImg";
 
 export interface Props {
   feedback: boolean;
@@ -69,17 +71,17 @@ const ChatMessages = (props: Props) => {
     })();
   }, []);
 // potem odkomentować ":) "
-  useEffect(() => {
-    (async () => {
+  // useEffect(() => {
+  //   (async () => {
       
-      if (props.questionBot !== undefined && aiChat !== undefined) {
-        setNewMessageAwait(true);
-        console.log(props.questionBot)
-        await AImessage(props.questionBot);
-    }
-  })();
+  //     if (props.questionBot !== undefined && aiChat !== undefined) {
+  //       setNewMessageAwait(true);
+  //       console.log(props.questionBot)
+  //       await AImessage(props.questionBot);
+  //   }
+  // })();
 
-  }, [props.questionBot, aiChat]);
+  // }, [props.questionBot, aiChat]);
 
 
   const handleSendMessage = async () => {

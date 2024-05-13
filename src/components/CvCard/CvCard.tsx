@@ -5,6 +5,7 @@ import { Navbar } from "./Navbar/Navbar";
 import { RightSite } from "./RightSite";
 import { getImage } from "../../services/firebaseChatService";
 import { ChooseLanguage } from "./Language/ChooseLanguage";
+import FullscreenImg from "../Chat/FullscreenImg";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void;
@@ -40,9 +41,9 @@ useEffect(() => {
   const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
     props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
     setShadow(shadow)
-    setBackgroundOrange(backgroundOrange);
+    setBackgroundOrange(backgroundOrange); 
 };
-  return (
+  return ( // do poprawy fullscreen
     <div>
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
