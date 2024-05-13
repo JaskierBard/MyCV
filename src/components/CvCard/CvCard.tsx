@@ -5,7 +5,6 @@ import { Navbar } from "./Navbar/Navbar";
 import { RightSite } from "./RightSite";
 import { getImage } from "../../services/firebaseChatService";
 import { ChooseLanguage } from "./Language/ChooseLanguage";
-import FullscreenImg from "../Chat/FullscreenImg";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void;

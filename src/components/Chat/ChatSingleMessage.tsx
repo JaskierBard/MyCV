@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./Chat.css";
 import { convertTextToHyperlinks } from "../../utils/convertTextToHyperlinks";
-import FullscreenImg from "./FullscreenImg";
 
 export interface Props {
   messages: any;
@@ -10,7 +9,25 @@ export interface Props {
 
 const ChatSingleMessage = (props: Props) => {
   const [dotsCount, setDotsCount] = useState<number>(1);
+  const [fullscreenImg, setFullscreenImg] = useState<string | null>(null);
 
+  useEffect(() => {
+    const images = document.querySelectorAll(".picture");
+    images.forEach((image: any) => {
+      image.addEventListener("click", () => handleImageClick(image.src));
+    });
+    return () => {
+      images.forEach((image: any) => {
+        image.removeEventListener("click", () => handleImageClick(image.src));
+      });
+    };
+  }, [props.messages]);
+
+  const handleImageClick = (imageUrl: string) => {
+    console.log("Clicked image URL:", imageUrl);
+
+    setFullscreenImg(imageUrl);
+  };
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -22,6 +39,11 @@ const ChatSingleMessage = (props: Props) => {
 
     return () => clearInterval(intervalId);
   }, [props.newMessageAwait]);
+
+  // useEffect(() => {
+  //   return       <FullscreenImg/> 
+
+  // }, [props.messages]);
 
   return (
     <>
@@ -50,8 +72,12 @@ const ChatSingleMessage = (props: Props) => {
         )
       )}
       {props.newMessageAwait && <div className="ai-message" style={{width:15}}><span>{".".repeat(dotsCount)}</span></div>}
-      <FullscreenImg/> 
-
+      {fullscreenImg && (
+        <div id="fullscreen">
+          <img src={fullscreenImg}></img>
+          <button onClick={()=> setFullscreenImg(null)}>Zamknij</button>
+        </div>
+      )}
     </>
   );
 };

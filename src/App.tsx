@@ -3,7 +3,6 @@ import "./App.css";
 import Chat from "./components/Chat/Chat";
 import { getAboutMe } from "./services/firebaseChatService";
 import CvCard from "./components/CvCard/CvCard";
-import FullscreenImg from "./components/Chat/FullscreenImg";
 
 const tabNames: { [key: string]: { [key: string]: string } } = {
   Polish: {

@@ -154,35 +154,33 @@
 
 
 
-#fullscreen{
-  width: 200px;
-  height: 100vh;
-  left: 0;
+#fullscreen {
+  position: fixed;
+  /* position: absolute; */
   top: 0;
-  background-color: rgba(0, 0, 0, 0.74);
-  /* margin: 0;
-  padding: 0; */
-  position: absolute;
-  z-index: 10;
-  display: flex;
-  align-items: center;
-  justify-content: center; 
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.884); /* opcjonalne: dodajemy półprzezroczyste tło */
+  z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
 }
 
-#fullscreen > img {
-  /* align-items: center; */
-
-  width: 90vw ;
+#fullscreen img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-top:50px
 }
 
-#fullscreen > button {
+#fullscreen button {
   position: absolute;
   top: 10px;
   right: 10px;
-  cursor: pointer;
+  background-color: transparent;
   color: white;
-  font-weight: bold;
-  background-color: var(--dark-blue);
-  border-radius: 5px;
-  padding: 8px 12px;
- }
+  border: none;
+  cursor: pointer;
+  z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
+
+}

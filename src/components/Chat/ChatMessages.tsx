@@ -11,8 +11,7 @@ import { getDate } from "../../utils/getDate";
 import { getIp } from "../../utils/getIp";
 import ChatLimiter from "./ChatLimiter";
 import ChatSingleMessage from "./ChatSingleMessage";
-import GalleryComponent from "./FullscreenImg";
-import FullscreenImg from "./FullscreenImg";
+
 
 export interface Props {
   feedback: boolean;

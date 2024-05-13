@@ -193,7 +193,8 @@
     display: flex;
     width: 500px;
     align-items: center;
-    
+    z-index: -1;
+
     flex-direction: column;
     left: 0px;
     top:0px

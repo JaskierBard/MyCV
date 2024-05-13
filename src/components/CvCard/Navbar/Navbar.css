@@ -77,11 +77,11 @@
   /* flex-direction: column; */
 
   background-color: var(--dark-blue);
-  height: 45px;
+  height: 50px;
   width: 500px;
   position: fixed;
   top: 0;
-  z-index: 3;
+  /* z-index: 1; */
 }
 
 .hamburger-nav > h1 {
