@@ -73,6 +73,7 @@ const tabNames: { [key: string]: { [key: string]: string } } = {
 function App() {
   const [aboutMe, setAboutMe] = useState<any>();
   const [questionBot, setQuestionBot] = useState<string>();
+  const [blockQuestionBot, setBlockQuestionBot] = useState<boolean>(false);
 
   const [activeLanguage, setActiveLanguage] = useState<{
     [key: string]: string;
@@ -95,6 +96,10 @@ function App() {
 
   const chooseLanguage = (activeLanguage: string) => {
     setActiveLanguage(tabNames[activeLanguage]);
+  };
+
+  const handleBlockQuestionBot = () => {
+    setBlockQuestionBot(true);
   };
 
   const askBot = (ask: string) => {
@@ -120,8 +125,9 @@ function App() {
         activeLanguage={activeLanguage}
         aboutMe={aboutMe}
         askBot={askBot}
+        blockQuestionBot={blockQuestionBot}
       />
-      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage} questionBot={questionBot}/>
+      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage} questionBot={questionBot}  blockQuestionBot={handleBlockQuestionBot}/>
     </div>
   );
 }

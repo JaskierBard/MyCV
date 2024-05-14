@@ -20,6 +20,7 @@ export interface Props {
     [key: string]: string;
   };
   questionBot: string | undefined;
+  blockQuestionBot: () => void;
 }
 
 const ChatMessages = (props: Props) => {
@@ -41,9 +42,12 @@ const ChatMessages = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+
   const blockInput = () => {
     setBlockedByTokenLimits(true);
+    props.blockQuestionBot();
   };
+
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
@@ -52,7 +56,7 @@ const ChatMessages = (props: Props) => {
       setUserID(userIDdata);
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
       const newAiChat = new OpenAiChat(
-        (await getSystemPrompt("mainChat")) + cutrrentDate
+        (await getSystemPrompt("mainChat")) + "obecna data to" + cutrrentDate
       );
       setAiChat(newAiChat);
       if (data) {

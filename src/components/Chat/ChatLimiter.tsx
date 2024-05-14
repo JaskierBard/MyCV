@@ -21,8 +21,7 @@ const ChatLimiter = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-
-      if (typeof props.usage ==="object" && props.newMessageAwait !== false ) {
+      if (typeof props.usage ==="object") {
         const totalTokenSum = Object.values(props.usage).reduce(
           (acc, curr) => acc + curr.total_tokens,
           0
@@ -38,7 +37,7 @@ const ChatLimiter = (props: Props) => {
   }, [props.usage]);
 
   useEffect(() => {
-    if (usedUserToken>1000 || totalTokenLimits>210000) {
+    if (usedUserToken>15000 || totalTokenLimits>210000) {
       props.blockInput();
     }
   }, [usedUserToken]);
@@ -49,7 +48,7 @@ const ChatLimiter = (props: Props) => {
         className="chat-limiter-toggler"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {props.activeLanguage['limits']} {isOpen && `pozostało: ${15000 - Number(usedUserToken)} tokenów`}
+        {props.activeLanguage['limits']} {isOpen && `pozostało tokenów: ${15000 - Number(usedUserToken)}`}  @TODO wyłączyć klikanie na robota w celu zapytania kiedy limit osiągnięty
       </button>
     </>
   );

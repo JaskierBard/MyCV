@@ -9,7 +9,10 @@ interface Props {
   askBot: (ask: string)=>void;
   activeLanguage: {
     [key: string]: string;
-  };}
+  };
+  blockQuestionBot:boolean
+
+}
 
 interface CategoryItem {
   [key: string]: [string] | string;
@@ -77,6 +80,8 @@ export const RightSite = (props: Props) => {
           botIcon={props.icons && props.icons[`ask-bot.png`]}
           askBot={props.askBot}
           activeLanguage= {props.activeLanguage}
+          blockQuestionBot= {props.blockQuestionBot}
+
         />
       ))}
     </div>

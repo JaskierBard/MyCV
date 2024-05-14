@@ -11,6 +11,7 @@ type Props = {
   activeLanguage: {
     [key: string]: string;
   };
+  blockQuestionBot: boolean;
 };
 
 export const CategoryButton: React.FC<Props> = ({
@@ -21,7 +22,8 @@ export const CategoryButton: React.FC<Props> = ({
   activeLanguage,
   isContentVisible,
   icon,
-  botIcon
+  botIcon,
+  blockQuestionBot
 }) => {
 
   const handleAskBot = (label:string) => {
@@ -31,20 +33,20 @@ export const CategoryButton: React.FC<Props> = ({
 }
   return (
     <>
-      <div className="categoryTab">
-        <img src={botIcon} className="ask-bot" onClick={()=> handleAskBot(label)}></img>
-        <div className="tab" onClick={onClick}>
+      <div className="categoryTab" >
+        {!blockQuestionBot &&<img src={botIcon} className="ask-bot" onClick={()=> handleAskBot(label)}></img>}
+        <div className="tab" onClick={onClick} style={blockQuestionBot ? {width: '100%'} : {width: '93%'}}>
           <div className="dot">
             <div className="smallDot">
               <img src={icon}></img>
             </div>
           </div>
-          <div className="label">{label}</div>
+          <div className="label" >{label}</div>
         </div>
       </div>
       <div>
         {isContentVisible && (
-          <div className="content">
+          <div className="content" >
             {Array.isArray(content) ? (
               content.map((skill, index) => (
                 <div key={index} className="line">

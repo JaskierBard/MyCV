@@ -13,6 +13,7 @@ interface Props {
   };
   aboutMe:any;
   askBot: (ask: string)=>void;
+  blockQuestionBot:boolean
 
 }
 const CvCard = (props:Props) => {
@@ -41,12 +42,12 @@ useEffect(() => {
     setShadow(shadow)
     setBackgroundOrange(backgroundOrange); 
 };
-  return ( // do poprawy fullscreen
+  return (
     <div>
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
         <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} icons={icons} aboutMe={props.aboutMe}/>
-        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons} askBot={props.askBot} activeLanguage={props.activeLanguage}/>
+        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons} askBot={props.askBot} activeLanguage={props.activeLanguage} blockQuestionBot={props.blockQuestionBot}/>
       </div>
     </div>
   );

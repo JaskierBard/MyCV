@@ -28,6 +28,8 @@ const ChatSingleMessage = (props: Props) => {
 
     setFullscreenImg(imageUrl);
   };
+
+
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -40,10 +42,6 @@ const ChatSingleMessage = (props: Props) => {
     return () => clearInterval(intervalId);
   }, [props.newMessageAwait]);
 
-  // useEffect(() => {
-  //   return       <FullscreenImg/> 
-
-  // }, [props.messages]);
 
   return (
     <>
@@ -58,11 +56,10 @@ const ChatSingleMessage = (props: Props) => {
             className={`message ${
               message.role === "assistant" ? "ai-message" : ""
             }`}
-            style={{ width: `${getMessageWidth(message.content)}px` }}
+            // style={{ width: `${getMessageWidth(message.content)}px` }}
           >
             <span
               dangerouslySetInnerHTML={{
-                // __html: (message.content),
                 __html: convertTextToHyperlinks(message.content),
 
               }}
@@ -82,15 +79,15 @@ const ChatSingleMessage = (props: Props) => {
   );
 };
 
-const getMessageWidth = (text: string) => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  if (context) {
-    context.font = "14px Arial";
-    const width = context.measureText(text).width;
-    return width + 20;
-  }
-  return 200;
-};
+// const getMessageWidth = (text: string) => {
+//   const canvas = document.createElement("canvas");
+//   const context = canvas.getContext("2d");
+//   if (context) {
+//     context.font = "14px Arial";
+//     const width = context.measureText(text).width;
+//     return width + 20;
+//   }
+//   return 200;
+// };
 
 export default ChatSingleMessage;
