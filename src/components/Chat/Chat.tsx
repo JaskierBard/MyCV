@@ -14,7 +14,7 @@ export interface Props {
 }
 
 const Chat = (props: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [tryToClose, setTryToClose] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
 

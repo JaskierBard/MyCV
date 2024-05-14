@@ -43,7 +43,7 @@ useEffect(() => {
     setBackgroundOrange(backgroundOrange); 
 };
   return (
-    <div>
+    <div className="motherboard">
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
         <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} icons={icons} aboutMe={props.aboutMe}/>

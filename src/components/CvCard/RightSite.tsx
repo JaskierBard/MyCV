@@ -22,8 +22,8 @@ export const RightSite = (props: Props) => {
   const [activeButton, setActiveButton] = useState("");
 // console.log(props.aboutMe)
   const AboutMeData: CategoryItem[] = [
-    { 'about-me': 'więcej o mnie' },
-    { 'skills': 'edukacja' },
+    { 'moreAbout': 'więcej o mnie' },
+    { 'courses': 'edukacja' },
     { 'education': 'Przycisk 3' },
     { 'interests': 'zainteres' }
   ];
@@ -43,7 +43,7 @@ export const RightSite = (props: Props) => {
   ];
 
   const Welcome: CategoryItem[] = [
-    { 'Witaj!': ' Witaj na moim CV. Znajdziesz tutaj trochę informacji o mnie w poszczególnych zakładkach lub po prostu zapytaj o to mojego bota'},
+    { 'welcome': ' Witaj na moim CV. Znajdziesz tutaj trochę informacji o mnie w poszczególnych zakładkach lub po prostu zapytaj o to mojego bota'},
     
   ];
   

@@ -12,16 +12,13 @@
     padding: 0;
     background: linear-gradient(to bottom right, #93c3c3, #6a94ad);
     display: flex;
-    align-items: center;
     justify-content: center;
     user-select: none;
-    /* position: relative; */
+    
   }
-/* 
-  @media (max-width: 1000px) {
+
+  @media (min-width: 1000px) {
     body{
-      justify-content: none;
-
+    align-items: center;
     }
-
-  } */
+  }

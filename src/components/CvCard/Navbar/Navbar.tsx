@@ -64,35 +64,39 @@ export const Navbar = (props: Props) => {
           </button>
         </div>
       ) : (
-        <div className="main-nav"><div className="hamburger-nav">
-        <h1>CV</h1>
-        <button onClick={handleMenuToggle} className="hamburger-button">{!isMenuOpen ? '☰' : 'X'}</button>
-      </div>
-      {isMenuOpen && <div className="nav-list">
-          <h2
-            onClick={() => handleTabClick("O mnie")}
-            className={activeTab === "O mnie" ? "active" : ""}
-          >
-            {props.activeLanguage["about"]}
-          </h2>
-          <h2
-            onClick={() => handleTabClick("Portfolio")}
-            className={activeTab === "Portfolio" ? "active" : ""}
-          >
-            {props.activeLanguage["portfolio"]}
-          </h2>
-          <h2
-            onClick={() => handleTabClick("Umiejętności")}
-            className={activeTab === "Umiejętności" ? "active" : ""}
-          >
-            {props.activeLanguage["skills"]}
-          </h2>
-          <button className="button">
-            {props.activeLanguage["downloadCV"]}
-          </button></div>}
-
-      </div>
-        
+        <div className="main-nav">
+          <div className="hamburger-nav">
+            <h1>CV</h1>
+            <button onClick={handleMenuToggle} className="hamburger-button">
+              {!isMenuOpen ? "☰" : "X"}
+            </button>
+          </div>
+          {isMenuOpen && (
+            <div className="nav-list">
+              <h2
+                onClick={() => handleTabClick("AboutMe")}
+                className={activeTab === "AboutMe" ? "active" : ""}
+              >
+                {props.activeLanguage["about"]}
+              </h2>
+              <h2
+                onClick={() => handleTabClick("Portfolio")}
+                className={activeTab === "Portfolio" ? "active" : ""}
+              >
+                {props.activeLanguage["portfolio"]}
+              </h2>
+              <h2
+                onClick={() => handleTabClick("Skills")}
+                className={activeTab === "Skills" ? "active" : ""}
+              >
+                {props.activeLanguage["skills"]}
+              </h2>
+              <button className="button">
+                {props.activeLanguage["downloadCV"]}
+              </button>
+            </div>
+          )}
+        </div>
       )}
     </>
   );

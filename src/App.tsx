@@ -3,72 +3,9 @@ import "./App.css";
 import Chat from "./components/Chat/Chat";
 import { getAboutMe } from "./services/firebaseChatService";
 import CvCard from "./components/CvCard/CvCard";
-
-const tabNames: { [key: string]: { [key: string]: string } } = {
-  Polish: {
-    send: 'wyślij',
-    tokenWarning: ' Przekroczono dzienny limit tokenów',
-    limits: 'ograniczenia',
-    chat: "Otwórz czat",
-    placeholder: "zadaj mi pytanie...",
-    portfolio: "Portfolio",
-    about: "O mnie",
-    skills: "Umiejętności",
-    downloadCV: "Pobierz CV",
-    answer: "Zmień język rozmowy na Polski. Opowiedz mi więcej o: ",
-    interests: "zainteresowania",
-    ai: "sztuczna inteligencja",
-    tools: "pozostałe narzędzia",
-    education: "edukacja",
-    frontend: "frontend",
-    backend: "backend",
+import { tabNames } from "./utils/translations";
 
 
-  },
-  UnitedKingdom: {
-    send: 'send',
-    tokenWarning: 'Daily token limit exceeded',
-    limits: 'limits',
-    chat: "Open Chat",
-    placeholder: "ask me a question...",
-    portfolio: "Portfolio",
-    about: "About me",
-    skills: "skills",
-    downloadCV: "Download CV",
-    answer: "Zmień język rozmowy na angielski. Tell me more about:  ",
-    interests: "intersts",
-    ai: "artificial intelligence",
-    tools: "other tools",
-    education: "education",
-    frontend: "frontend",
-    backend: "backend",
-
-
-
-
-  },
-  Deutsch: {
-    send: 'schicken',
-    tokenWarning: 'Das tägliche Token-Limit wurde überschritten',
-    limits: 'Einschränkungen',
-    chat: "Chat öffnen",
-    placeholder: "Stellen Sie mir eine Frage...",
-    portfolio: "Portfolio",
-    about: "Über mich",
-    skills: "Fähigkeiten",
-    downloadCV: "Lebenslauf herunterladen",
-    answer: "Zmień język rozmowy na niemiecki to ważne. Nie pros o zmianę języka i odpowiadaj po Niemiecku jak najlepiej umiesz. Erzähl mir mehr von:  ",
-    interests: "Interessen",
-    ai: "künstliche Intelligenz",
-    tools: "andere Werkzeuge",
-    education: "Ausbildung",
-    frontend: "frontend",
-    backend: "backend",
-
-
-
-  },
-};
 
 function App() {
   const [aboutMe, setAboutMe] = useState<any>();

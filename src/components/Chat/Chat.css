@@ -3,15 +3,12 @@
     position: fixed;
 
   }
-
-  
 }
 
 @media (min-width: 250px) {
   .chat-container {
     position: fixed;
   }
-
 }
 
 .chat-container {
