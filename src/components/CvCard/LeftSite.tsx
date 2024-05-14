@@ -9,6 +9,9 @@ interface Props {
   chooseLanguage: (language: string)=>void;
   icons:any;
   aboutMe: any;
+  activeLanguage: {
+    [key: string]: string;
+  };
 }
 
 
@@ -71,6 +74,8 @@ export const LeftSite = (props:Props) => {
 
       <Slider icons={props.icons} onBackgroundChange={handleBackgroundChange}/>
       <ChooseLanguage icons={props.icons} chooseLanguage={props.chooseLanguage}/>
+      <div className="law">{props.activeLanguage['law']}</div>
+  
 
 
     </div>

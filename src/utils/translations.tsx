@@ -18,7 +18,8 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
       education: "edukacja",
       frontend: "frontend",
       backend: "backend",
-      welcome: "Witaj!"
+      welcome: "Witaj!",
+      law: "© 2024 Mateusz Świderski. Wszelkie prawa zastrzeżone"
   
     },
     UnitedKingdom: {
@@ -40,8 +41,9 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
       education: "education",
       frontend: "frontend",
       backend: "backend",
-      welcome: "Hi!"
-  
+      welcome: "Hi!",
+      law: "© 2024 Mateusz Świderski. All Rights Reserved"
+
   
   
   
@@ -65,9 +67,10 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
       education: "Ausbildung",
       frontend: "frontend",
       backend: "backend",
-      welcome: "Hallo!"
-  
-  
+      welcome: "Hallo!",
+      law: "© 2024 Mateusz Świderski. Alle Rechte vorbehalten"
+
+      
   
     },
   };
