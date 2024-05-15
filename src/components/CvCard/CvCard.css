@@ -132,11 +132,13 @@
 }
 
 .shortAboutMe {
+  /* background-color: #739edf; */
   color: var(--dark-blue);
   border-radius: 5px;
   width: 100%;
+  margin-top: 20px;
   text-align: center;
-  height: 100px;
+  /* height: 100px; */
 }
 
 
@@ -198,4 +200,22 @@
 
 .motherboard {
   position: relative;
+}
+
+.law{
+  position: absolute;
+  bottom: 2px;
+  left: 2px;
+  font-weight: 600;
+  color: var(--dark-blue);
+}
+
+.clickbait{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  bottom: 25px;
+  text-decoration: underline;
+  left: 22px;
+  font-weight: 600;
+  color: var(--dark-blue);
 }

@@ -1,5 +1,6 @@
 export const tabNames: { [key: string]: { [key: string]: string } } = {
     Polish: {
+      language: 'Polish',
       send: 'wyślij',
       tokenWarning: ' Przekroczono dzienny limit tokenów',
       limits: 'ograniczenia',
@@ -23,6 +24,7 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
   
     },
     UnitedKingdom: {
+      language: 'UnitedKingdom',
       send: 'send',
       tokenWarning: 'Daily token limit exceeded',
       limits: 'limits',
@@ -49,6 +51,7 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
   
     },
     Deutsch: {
+      language: 'Deutsch',
       send: 'schicken',
       tokenWarning: 'Das tägliche Token-Limit wurde überschritten',
       limits: 'Einschränkungen',

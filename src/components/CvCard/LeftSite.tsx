@@ -5,45 +5,53 @@ import Slider from "../Slider/Slider";
 import { ChooseLanguage } from "./Language/ChooseLanguage";
 
 interface Props {
-  onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
-  chooseLanguage: (language: string)=>void;
-  icons:any;
+  onBackgroundChange: (
+    backgroundOrange: string,
+    backgroundBlue: string,
+    shadow: string
+  ) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  chooseLanguage: (language: string) => void;
+  icons: any;
   aboutMe: any;
   activeLanguage: {
     [key: string]: string;
   };
 }
 
+export const LeftSite = (props: Props) => {
+  const [profilePicture, setProfilePicture] = useState<any>();
 
-export const LeftSite = (props:Props) => {
-    const [profilePicture, setProfilePicture] = useState<any>();
-
-    const handleBackgroundChange = (backgroundOrange: string, backgroundBlue:string, shadow: string) => {
-      props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
-  }
-  const onClickHandle = (choice: string,) => {
-
+  const handleBackgroundChange = (
+    backgroundOrange: string,
+    backgroundBlue: string,
+    shadow: string
+  ) => {
+    props.onBackgroundChange(backgroundOrange, backgroundBlue, shadow);
+  };
+  const onClickHandle = (choice: string) => {
     switch (choice) {
-      case 'github':
-        console.log(props.aboutMe.personalDetails[choice])
+      case "github":
+        console.log(props.aboutMe.personalDetails[choice]);
 
-        return  window.open(props.aboutMe.personalDetails[choice],'_blank')
-      case 'linkedIn':
-        console.log(props.aboutMe.personalDetails[choice])
-        return  window.open(props.aboutMe.personalDetails[choice],'_blank')
-      case 'email':
-        const composeEmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(props.aboutMe.personalDetails[choice])}`;
-        return window.open(composeEmailUrl, '_blank');
+        return window.open(props.aboutMe.personalDetails[choice], "_blank");
+      case "linkedIn":
+        console.log(props.aboutMe.personalDetails[choice]);
+        return window.open(props.aboutMe.personalDetails[choice], "_blank");
+      case "email":
+        const composeEmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+          props.aboutMe.personalDetails[choice]
+        )}`;
+        return window.open(composeEmailUrl, "_blank");
       default:
         return null;
     }
-}
-    useEffect(() => {
-        (async () => {
-            const pictures = await getImage('myPhotos')
-            setProfilePicture(pictures)
-        })();
-      }, []);
+  };
+  useEffect(() => {
+    (async () => {
+      const pictures = await getImage("myPhotos");
+      setProfilePicture(pictures);
+    })();
+  }, []);
 
   return (
     <div className="left">
@@ -53,7 +61,7 @@ export const LeftSite = (props:Props) => {
       <div className="container1">
         <img
           className="photo"
-          src={profilePicture &&  profilePicture['cv.png']}
+          src={profilePicture && profilePicture["cv.png"]}
           alt="CV"
         />
         <div className="ring">
@@ -61,23 +69,40 @@ export const LeftSite = (props:Props) => {
         </div>
       </div>
 
-      {/* <Icons/> */}
-      
       <div className="shortAboutMe">
         <div>Jestem otwarty na oferty pracy</div>
-      <img src={props.icons && props.icons['github-color.png']} className="links-icon" onClick={() =>onClickHandle('github')}></img>
-      <img src={props.icons && props.icons['linkedin-color.png']} className="links-icon" onClick={() =>onClickHandle('linkedIn')}></img>
-      <img src={props.icons && props.icons['gmail-color.png']} className="links-icon" onClick={() =>onClickHandle('email')}></img>
+        <div className="clickbait">Potrzebujesz więcej informacji? Zapytaj MateuszBot</div>
 
+        <img
+          src={props.icons && props.icons["github-color.png"]}
+          className="links-icon"
+          onClick={() => onClickHandle("github")}
+          alt="github"
+        ></img>
+        <img
+          src={props.icons && props.icons["linkedin-color.png"]}
+          className="links-icon"
+          onClick={() => onClickHandle("linkedIn")}
+          alt="linkedIn"
+
+        ></img>
+        <img
+          src={props.icons && props.icons["gmail-color.png"]}
+          className="links-icon"
+          onClick={() => onClickHandle("email")}
+          alt="email"
+
+        ></img>
+        <ChooseLanguage
+        icons={props.icons}
+        chooseLanguage={props.chooseLanguage}
+      />
       </div>
 
+      <Slider icons={props.icons} onBackgroundChange={handleBackgroundChange} />
+      
 
-      <Slider icons={props.icons} onBackgroundChange={handleBackgroundChange}/>
-      <ChooseLanguage icons={props.icons} chooseLanguage={props.chooseLanguage}/>
-      <div className="law">{props.activeLanguage['law']}</div>
-  
-
-
+      <div className="law">{props.activeLanguage["law"]}</div>
     </div>
   );
 };

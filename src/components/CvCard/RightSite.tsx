@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./CvCard.css";
 import { CategoryButton } from "./common/CategoryButton/CategoryButton";
+import { getShort } from "../../services/firebaseChatService";
 
 interface Props {
   activeTab: string;
@@ -20,19 +21,28 @@ interface CategoryItem {
 
 export const RightSite = (props: Props) => {
   const [activeButton, setActiveButton] = useState("");
-// console.log(props.aboutMe)
+  const [shortInfos, setShortInfos] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      const info = await getShort();
+      console.log(props.activeLanguage);
+      setShortInfos(info);
+    })();
+  }, []);
+
   const AboutMeData: CategoryItem[] = [
-    { 'moreAbout': 'więcej o mnie' },
-    { 'courses': 'edukacja' },
-    { 'education': 'Przycisk 3' },
-    { 'interests': 'zainteres' }
+    { 'moreAbout': shortInfos?.aboutMe[props.activeLanguage['language']] },
+    { 'courses': shortInfos?.courses[props.activeLanguage['language']]},
+    { 'education': shortInfos?.education[props.activeLanguage['language']]},
+    { 'interests': shortInfos?.interests[props.activeLanguage['language']] }
   ];
 
   const PortfolioData: CategoryItem[] = [
-    { 'Gapp': props.aboutMe?.projects.Gapp.description || '' },
-    { 'Gothinczyk': props.aboutMe?.projects.Gothińczyk.description || '' },
-    { 'HeadHunter': props.aboutMe?.projects.HeadHunter.description || ''},
-    { 'PomodoroEq': props.aboutMe?.projects.PomodoroEq.description || ''}
+    { 'Gapp': shortInfos?.Gapp[props.activeLanguage['language']]},
+    { 'Gothinczyk': shortInfos?.Gothinczyk[props.activeLanguage['language']]},
+    { 'HeadHunter': shortInfos?.HeadHunter[props.activeLanguage['language']]},
+    { 'PomodoroEq': shortInfos?.PomodoroEq[props.activeLanguage['language']]}
   ];
 
   const SkillsData: CategoryItem[] = [
@@ -46,7 +56,6 @@ export const RightSite = (props: Props) => {
     { 'welcome': ' Witaj na moim CV. Znajdziesz tutaj trochę informacji o mnie w poszczególnych zakładkach lub po prostu zapytaj o to mojego bota'},
     
   ];
-  
 
   const getCategoryData = (category: string): CategoryItem[] => {
     switch (category) {

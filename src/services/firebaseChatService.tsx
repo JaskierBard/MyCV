@@ -90,6 +90,20 @@ export const getAboutMe = async () => {
     return {};
   }
 };
+
+export const getShort = async () => {
+  try {
+    const heroRef = doc(FIRESTORE_DB, `about me/MateuszShort`);
+    const heroDoc = await getDoc(heroRef);
+    const currentData = heroDoc.data() || {};
+    return currentData;
+  } catch (error) {
+    console.error("An error occurred while fetching about me data:", error);
+    return {};
+  }
+};
+
+
 export const getImage = async (folder: string) => {
   try {
     const storageRef = ref(FIREBASE_STORAGE, `${folder}`);
