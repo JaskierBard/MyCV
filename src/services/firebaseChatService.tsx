@@ -2,9 +2,7 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { FIREBASE_STORAGE, FIRESTORE_DB } from "./firebaseConfig";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
@@ -64,10 +62,10 @@ export const checkUserByDateAndIp = async (
   }
 };
 
-export const getSystemPrompt = async (name: string): Promise<string> => {
+export const getSettings = async (name: string, setting: string): Promise<string> => {
   const conversationRef = doc(
     collection(FIRESTORE_DB, "settings"),
-    "systemPrompts"
+    setting
   );
   const docSnapshot = await getDoc(conversationRef);
 

@@ -56,7 +56,6 @@ const ChatSingleMessage = (props: Props) => {
             className={`message ${
               message.role === "assistant" ? "ai-message" : ""
             }`}
-            // style={{ width: `${getMessageWidth(message.content)}px` }}
           >
             <span
               dangerouslySetInnerHTML={{
@@ -79,15 +78,5 @@ const ChatSingleMessage = (props: Props) => {
   );
 };
 
-// const getMessageWidth = (text: string) => {
-//   const canvas = document.createElement("canvas");
-//   const context = canvas.getContext("2d");
-//   if (context) {
-//     context.font = "14px Arial";
-//     const width = context.measureText(text).width;
-//     return width + 20;
-//   }
-//   return 200;
-// };
 
 export default ChatSingleMessage;

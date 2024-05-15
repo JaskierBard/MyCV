@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./Chat.css";
-import { addToConversation, sumUsedTokensFromDate } from "../../services/firebaseChatService";
+import { addToConversation, getSettings, sumUsedTokensFromDate } from "../../services/firebaseChatService";
 
 export interface Props {
   userID: string;
@@ -16,6 +16,9 @@ export interface Props {
 
 const ChatLimiter = (props: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [dailyPerUser, setDailyPerUser] = useState<number>(0);
+  const [dailySumUser, setDailySumUser] = useState<number>(0);
+
   const [usedUserToken, setUsedUserToken] = useState<any>();
   const [totalTokenLimits, setTotalTokenLimits] = useState<any>();
 
@@ -37,10 +40,22 @@ const ChatLimiter = (props: Props) => {
   }, [props.usage]);
 
   useEffect(() => {
-    if (usedUserToken>15000 || totalTokenLimits>210000) {
+
+    if (usedUserToken>dailyPerUser || totalTokenLimits>dailySumUser) {
+
       props.blockInput();
     }
   }, [usedUserToken]);
+
+  useEffect(() => {
+    (async () => {
+
+    setDailyPerUser(Number(await getSettings("dailyPerUser", "tokenLimits")))
+    setDailySumUser(Number(await getSettings("dailySumUsers", "tokenLimits")))
+
+  })();
+
+  }, []);
 
   return (
     <>
@@ -48,7 +63,7 @@ const ChatLimiter = (props: Props) => {
         className="chat-limiter-toggler"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {props.activeLanguage['limits']} {isOpen && `pozostało tokenów: ${15000 - Number(usedUserToken)}`}  @TODO wyłączyć klikanie na robota w celu zapytania kiedy limit osiągnięty
+        {props.activeLanguage['limits']} {isOpen && `pozostało tokenów: ${Number(dailyPerUser) - Number(usedUserToken)}`}
       </button>
     </>
   );

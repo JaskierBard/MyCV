@@ -3,7 +3,7 @@ import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
 import {
   checkUserByDateAndIp,
-  getSystemPrompt,
+  getSettings,
 } from "../../services/firebaseChatService";
 import { handleCalledFunction } from "../../utils/callable-functions";
 import { getDate } from "../../utils/getDate";
@@ -56,7 +56,7 @@ const ChatMessages = (props: Props) => {
       setUserID(userIDdata);
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
       const newAiChat = new OpenAiChat(
-        (await getSystemPrompt("mainChat")) + "obecna data to" + cutrrentDate
+        (await getSettings("mainChat", "systemPrompts")) + "obecna data to" + cutrrentDate
       );
       setAiChat(newAiChat);
       if (data) {
@@ -72,18 +72,17 @@ const ChatMessages = (props: Props) => {
       }
     })();
   }, []);
-// potem odkomentować ":) "
-  // useEffect(() => {
-  //   (async () => {
+  useEffect(() => {
+    (async () => {
       
-  //     if (props.questionBot !== undefined && aiChat !== undefined) {
-  //       setNewMessageAwait(true);
-  //       console.log(props.questionBot)
-  //       await AImessage(props.questionBot);
-  //   }
-  // })();
+      if (props.questionBot !== undefined && aiChat !== undefined) {
+        setNewMessageAwait(true);
+        console.log(props.questionBot)
+        await AImessage(props.questionBot);
+    }
+  })();
 
-  // }, [props.questionBot, aiChat]);
+  }, [props.questionBot, aiChat]);
 
 
   const handleSendMessage = async () => {
