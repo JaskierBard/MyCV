@@ -8,8 +8,10 @@ export interface Props {
   activeLanguage: {
     [key: string]: string;
   };
-  questionBot:string | undefined;
+  questionBot:string | null;
   blockQuestionBot: () => void;
+  askBot: (ask: string | null) => void;
+
 
 }
 
@@ -69,6 +71,7 @@ const Chat = (props: Props) => {
             background={props.background}
             activeLanguage={props.activeLanguage}
             questionBot= {props.questionBot}
+            askBot={props.askBot}
             blockQuestionBot={props.blockQuestionBot}
           />
         </div>

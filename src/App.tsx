@@ -9,7 +9,7 @@ import { tabNames } from "./utils/translations";
 
 function App() {
   const [aboutMe, setAboutMe] = useState<any>();
-  const [questionBot, setQuestionBot] = useState<string>();
+  const [questionBot, setQuestionBot] = useState<string | null>(null);
   const [blockQuestionBot, setBlockQuestionBot] = useState<boolean>(false);
 
   const [activeLanguage, setActiveLanguage] = useState<{
@@ -39,7 +39,7 @@ function App() {
     setBlockQuestionBot(true);
   };
 
-  const askBot = (ask: string) => {
+  const askBot = (ask: string | null) => {
     setQuestionBot(ask);
   };
 
@@ -64,7 +64,7 @@ function App() {
         askBot={askBot}
         blockQuestionBot={blockQuestionBot}
       />
-      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage} questionBot={questionBot}  blockQuestionBot={handleBlockQuestionBot}/>
+      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage} questionBot={questionBot}  blockQuestionBot={handleBlockQuestionBot} askBot={askBot}/>
     </div>
   );
 }

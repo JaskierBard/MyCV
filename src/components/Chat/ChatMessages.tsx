@@ -19,8 +19,10 @@ export interface Props {
   activeLanguage: {
     [key: string]: string;
   };
-  questionBot: string | undefined;
+  questionBot: string | null;
   blockQuestionBot: () => void;
+  askBot: (ask:string | null) => void;
+
 }
 
 const ChatMessages = (props: Props) => {
@@ -75,10 +77,11 @@ const ChatMessages = (props: Props) => {
   useEffect(() => {
     (async () => {
       
-      if (props.questionBot !== undefined && aiChat !== undefined) {
+      if (props.questionBot !== null && aiChat !== undefined) {
         setNewMessageAwait(true);
         console.log(props.questionBot)
         await AImessage(props.questionBot);
+        props.askBot(null)
     }
   })();
 

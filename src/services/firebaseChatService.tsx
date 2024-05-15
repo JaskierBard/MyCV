@@ -23,7 +23,6 @@ export const addToConversation = async (
     { merge: true }
   );
 
-  console.log("dodano do konwersacji firebase");
 };
 export const sumUsedTokensFromDate = async (date: string): Promise<number> => {
   const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
@@ -42,7 +41,6 @@ export const sumUsedTokensFromDate = async (date: string): Promise<number> => {
     });
   }
 
-  console.log("total used tokens: " + totalUsedTokens);
   return totalUsedTokens;
 };
 

@@ -24,8 +24,6 @@ const ChatSingleMessage = (props: Props) => {
   }, [props.messages]);
 
   const handleImageClick = (imageUrl: string) => {
-    console.log("Clicked image URL:", imageUrl);
-
     setFullscreenImg(imageUrl);
   };
 
