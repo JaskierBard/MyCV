@@ -2,15 +2,15 @@ import React, { useState, useRef, useEffect } from "react";
 import "./Chat.css";
 import { OpenAiChat } from "../../utils/chatAI";
 import {
-  addToConversation,
   checkUserByDateAndIp,
-  getSystemPrompt,
+  getSettings,
 } from "../../services/firebaseChatService";
 import { handleCalledFunction } from "../../utils/callable-functions";
 import { getDate } from "../../utils/getDate";
 import { getIp } from "../../utils/getIp";
 import ChatLimiter from "./ChatLimiter";
 import ChatSingleMessage from "./ChatSingleMessage";
+
 
 export interface Props {
   feedback: boolean;
@@ -19,6 +19,10 @@ export interface Props {
   activeLanguage: {
     [key: string]: string;
   };
+  questionBot: string | null;
+  blockQuestionBot: () => void;
+  askBot: (ask:string | null) => void;
+
 }
 
 const ChatMessages = (props: Props) => {
@@ -40,9 +44,12 @@ const ChatMessages = (props: Props) => {
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
   };
+
   const blockInput = () => {
     setBlockedByTokenLimits(true);
+    props.blockQuestionBot();
   };
+
   useEffect(() => {
     (async () => {
       const cutrrentDate = getDate();
@@ -51,7 +58,7 @@ const ChatMessages = (props: Props) => {
       setUserID(userIDdata);
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
       const newAiChat = new OpenAiChat(
-        (await getSystemPrompt("mainChat")) + cutrrentDate
+        (await getSettings("mainChat", "systemPrompts")) + "obecna data to" + cutrrentDate
       );
       setAiChat(newAiChat);
       if (data) {
@@ -67,6 +74,19 @@ const ChatMessages = (props: Props) => {
       }
     })();
   }, []);
+  useEffect(() => {
+    (async () => {
+      
+      if (props.questionBot !== null && aiChat !== undefined) {
+        setNewMessageAwait(true);
+        console.log(props.questionBot)
+        await AImessage(props.questionBot);
+        props.askBot(null)
+    }
+  })();
+
+  }, [props.questionBot, aiChat]);
+
 
   const handleSendMessage = async () => {
     if (inputValue.trim() !== "") {
@@ -148,7 +168,7 @@ const ChatMessages = (props: Props) => {
         />
       </div>
       {blockedByTokenLimits ? (
-        <div className="send-button">Przekroczono dzienny limit tokenów</div>
+        <div className="warning">{props.activeLanguage['tokenWarning']}</div>
       ) : (
         <div className="input-container">
           <input

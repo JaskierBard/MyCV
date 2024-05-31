@@ -15,4 +15,16 @@
     <noscript>You need to enable JavaScript to run this app.</noscript>
     <div id="root"></div>
   </body>
+  <script>
+      const copyToClipboard = (textToCopy) => {
+        const input = document.createElement('input');
+        input.style.position = 'fixed';
+        input.style.opacity = '0';
+        input.value = textToCopy;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand('copy');
+        document.body.removeChild(input);
+    };
+  </script>
 </html>

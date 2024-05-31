@@ -2,9 +2,7 @@ import {
   collection,
   doc,
   getDoc,
-  getDocs,
   setDoc,
-  updateDoc,
 } from "firebase/firestore";
 import { FIREBASE_STORAGE, FIRESTORE_DB } from "./firebaseConfig";
 import { getDownloadURL, listAll, ref } from "firebase/storage";
@@ -25,7 +23,6 @@ export const addToConversation = async (
     { merge: true }
   );
 
-  console.log("dodano do konwersacji firebase");
 };
 export const sumUsedTokensFromDate = async (date: string): Promise<number> => {
   const conversationRef = doc(collection(FIRESTORE_DB, "conversation"), date);
@@ -44,7 +41,6 @@ export const sumUsedTokensFromDate = async (date: string): Promise<number> => {
     });
   }
 
-  console.log("total used tokens: " + totalUsedTokens);
   return totalUsedTokens;
 };
 
@@ -64,10 +60,10 @@ export const checkUserByDateAndIp = async (
   }
 };
 
-export const getSystemPrompt = async (name: string): Promise<string> => {
+export const getSettings = async (name: string, setting: string): Promise<string> => {
   const conversationRef = doc(
     collection(FIRESTORE_DB, "settings"),
-    "systemPrompts"
+    setting
   );
   const docSnapshot = await getDoc(conversationRef);
 
@@ -90,6 +86,20 @@ export const getAboutMe = async () => {
     return {};
   }
 };
+
+export const getShort = async () => {
+  try {
+    const heroRef = doc(FIRESTORE_DB, `about me/MateuszShort`);
+    const heroDoc = await getDoc(heroRef);
+    const currentData = heroDoc.data() || {};
+    return currentData;
+  } catch (error) {
+    console.error("An error occurred while fetching about me data:", error);
+    return {};
+  }
+};
+
+
 export const getImage = async (folder: string) => {
   try {
     const storageRef = ref(FIREBASE_STORAGE, `${folder}`);

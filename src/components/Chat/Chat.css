@@ -1,5 +1,17 @@
+@media (min-width: 1000px) {
+  .chat-container {
+    position: fixed;
+
+  }
+}
+
+@media (min-width: 250px) {
+  .chat-container {
+    position: fixed;
+  }
+}
+
 .chat-container {
-  position: absolute;
   bottom: 10px;
   right: 10px;
   width: 350px;
@@ -78,6 +90,8 @@
   flex: 1;
   padding: 8px;
   border-radius: 5px;
+  background: linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188));
+
 }
 
 .bot-name {
@@ -101,10 +115,11 @@
 }
 
 .open-button {
-  position: absolute;
+  position: fixed;
+  /* position: absolute; */
   width: 350px;
-  bottom: 10px;
-  right: 10px;
+  bottom: 4px;
+  right: 4px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
 }
 
@@ -118,6 +133,7 @@
   /* width: 100%; */
   max-width: 100%;
   max-height: 400px;
+  cursor: pointer;
 }
 
   /* chat-limmiter */
@@ -130,4 +146,45 @@
   font-weight: bolder;
   cursor: pointer;
   font-size: 10px;
+}
+
+
+
+
+#fullscreen {
+  position: fixed;
+  /* position: absolute; */
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.884); /* opcjonalne: dodajemy półprzezroczyste tło */
+  z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
+}
+
+#fullscreen img {
+  display: block;
+  margin: auto;
+  max-width: 100%;
+  max-height: 100%;
+  margin-top:50px
+}
+
+#fullscreen button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: transparent;
+  color: white;
+  border: none;
+  cursor: pointer;
+  z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
+
+}
+
+.warning {
+  color: var(--orange);
+  font-weight: 500;
+  margin-top: 10px;
+text-align: center
 }

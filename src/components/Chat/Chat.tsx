@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Chat.css";
 import ChatMessages from "./ChatMessages";
 
@@ -8,12 +8,25 @@ export interface Props {
   activeLanguage: {
     [key: string]: string;
   };
+  questionBot:string | null;
+  blockQuestionBot: () => void;
+  askBot: (ask: string | null) => void;
+
+
 }
 
 const Chat = (props: Props) => {
-  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(true);
   const [tryToClose, setTryToClose] = useState<boolean>(false);
   const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (props.questionBot !== undefined) {
+      if (isOpen === false) {
+        setIsOpen(true)
+      }
+    }
+  }, [props.questionBot]);
 
   const toggleChat = () => {
     if (isOpen && tryToClose === false) {
@@ -57,6 +70,9 @@ const Chat = (props: Props) => {
             aboutMe={props.aboutMe}
             background={props.background}
             activeLanguage={props.activeLanguage}
+            questionBot= {props.questionBot}
+            askBot={props.askBot}
+            blockQuestionBot={props.blockQuestionBot}
           />
         </div>
       )}

@@ -1,10 +1,10 @@
 .container{
-    background-color: rgba(0, 0, 0, 0.068);
-    height: 210px;
+    /* background-color: rgba(0, 0, 0, 0.068); */
+    height: 250px;
     width: 50px;
-    position: relative;
+    position: absolute;
     /* top: -320px; */
-    top: 120px;
+    top: 160px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -19,7 +19,7 @@
     -moz-appearance: none; 
     appearance: none;    
     /* margin-top: 100px; */
-    width: 120px;
+    width: 160px;
     height: 10px;
     background: #d3d3d3;
     /* left: -35px; */

@@ -9,6 +9,24 @@ export interface Props {
 
 const ChatSingleMessage = (props: Props) => {
   const [dotsCount, setDotsCount] = useState<number>(1);
+  const [fullscreenImg, setFullscreenImg] = useState<string | null>(null);
+
+  useEffect(() => {
+    const images = document.querySelectorAll(".picture");
+    images.forEach((image: any) => {
+      image.addEventListener("click", () => handleImageClick(image.src));
+    });
+    return () => {
+      images.forEach((image: any) => {
+        image.removeEventListener("click", () => handleImageClick(image.src));
+      });
+    };
+  }, [props.messages]);
+
+  const handleImageClick = (imageUrl: string) => {
+    setFullscreenImg(imageUrl);
+  };
+
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -22,8 +40,10 @@ const ChatSingleMessage = (props: Props) => {
     return () => clearInterval(intervalId);
   }, [props.newMessageAwait]);
 
+
   return (
     <>
+
       {props.messages.map(
         (
           message: { role: string; content: string },
@@ -34,11 +54,11 @@ const ChatSingleMessage = (props: Props) => {
             className={`message ${
               message.role === "assistant" ? "ai-message" : ""
             }`}
-            style={{ width: `${getMessageWidth(message.content)}px` }}
           >
             <span
               dangerouslySetInnerHTML={{
-                __html: (message.content),
+                __html: convertTextToHyperlinks(message.content),
+
               }}
             />
           </div>
@@ -46,19 +66,15 @@ const ChatSingleMessage = (props: Props) => {
         )
       )}
       {props.newMessageAwait && <div className="ai-message" style={{width:15}}><span>{".".repeat(dotsCount)}</span></div>}
+      {fullscreenImg && (
+        <div id="fullscreen">
+          <img src={fullscreenImg} alt="fullscreen_picture"></img>
+          <button onClick={()=> setFullscreenImg(null)}>Zamknij</button>
+        </div>
+      )}
     </>
   );
 };
 
-const getMessageWidth = (text: string) => {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  if (context) {
-    context.font = "14px Arial";
-    const width = context.measureText(text).width;
-    return width + 20;
-  }
-  return 200;
-};
 
 export default ChatSingleMessage;
