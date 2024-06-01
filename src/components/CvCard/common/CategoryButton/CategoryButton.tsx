@@ -38,7 +38,7 @@ export const CategoryButton: React.FC<Props> = ({
         <div className="tab" onClick={onClick} style={blockQuestionBot ? {width: '100%'} : {width: '94%'}}>
           <div className="dot">
             <div className="smallDot">
-              <img src={icon}></img>
+              <img src={icon} alt="category-icon"></img>
             </div>
           </div>
           <div className="label" >{label}</div>

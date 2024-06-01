@@ -1,36 +1,33 @@
 import React, { useEffect, useState } from "react";
 import "./Navbar.css";
+import { downloadCV } from "../../../services/firebaseChatService";
 
 interface Props {
-  handleActiveTabChange: (tab: string) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  handleActiveTabChange: (tab: string) => void;
   activeLanguage: {
     [key: string]: string;
   };
 }
 
 export const Navbar = (props: Props) => {
-  const [activeTab, setActiveTab] = useState("CV"); // Dodajemy stan śledzący aktywny element
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // Dodajemy stan do śledzenia otwarcia/zamknięcia menu bocznego
-
+  const [activeTab, setActiveTab] = useState("CV"); 
+  const [isMenuOpen, setIsMenuOpen] = useState(false); 
   const [windowWidth, setWindowWidth] = useState(window.innerWidth);
 
   const handleTabClick = (tab: string) => {
     props.handleActiveTabChange(tab);
-    setActiveTab(tab); // Ustawiamy aktywny element na kliknięty
-    setIsMenuOpen(false); // Po kliknięciu na element menu zamykamy menu boczne
+    setActiveTab(tab); 
+    setIsMenuOpen(false); 
   };
   const handleMenuToggle = () => {
-    setIsMenuOpen(!isMenuOpen); // Funkcja do otwierania/zamykania menu bocznego
+    setIsMenuOpen(!isMenuOpen); 
   };
 
   useEffect(() => {
     const handleResize = () => {
       setWindowWidth(window.innerWidth);
     };
-
     window.addEventListener("resize", handleResize);
-
-    // Cleanup function to remove event listener when component unmounts
     return () => {
       window.removeEventListener("resize", handleResize);
     };
@@ -59,7 +56,7 @@ export const Navbar = (props: Props) => {
           >
             {props.activeLanguage["skills"]}
           </h2>
-          <button className="button">
+          <button className="button" onClick={downloadCV}>
             {props.activeLanguage["downloadCV"]}
           </button>
         </div>
@@ -91,7 +88,7 @@ export const Navbar = (props: Props) => {
               >
                 {props.activeLanguage["skills"]}
               </h2>
-              <button className="button">
+              <button  onClick={downloadCV} className="button">
                 {props.activeLanguage["downloadCV"]}
               </button>
             </div>

@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import  {useState}  from "react";
 import "./CvCard.css";
 import { CategoryButton } from "./common/CategoryButton/CategoryButton";
-import { getShort } from "../../services/firebaseChatService";
 
 interface Props {
   activeTab: string;
   icons: { [key: string]: string };
   aboutMe: any;
+  shortInfos: any;
   askBot: (ask: string)=>void;
   activeLanguage: {
     [key: string]: string;
@@ -21,28 +21,19 @@ interface CategoryItem {
 
 export const RightSite = (props: Props) => {
   const [activeButton, setActiveButton] = useState("");
-  const [shortInfos, setShortInfos] = useState<any>();
-
-  useEffect(() => {
-    (async () => {
-      const info = await getShort();
-      console.log(props.activeLanguage);
-      setShortInfos(info);
-    })();
-  }, []);
 
   const AboutMeData: CategoryItem[] = [
-    { 'moreAbout': shortInfos?.aboutMe[props.activeLanguage['language']] },
-    { 'courses': shortInfos?.courses[props.activeLanguage['language']]},
-    { 'education': shortInfos?.education[props.activeLanguage['language']]},
-    { 'interests': shortInfos?.interests[props.activeLanguage['language']] }
+    { 'moreAbout': props.shortInfos?.aboutMe[props.activeLanguage['language']] },
+    { 'courses': props.shortInfos?.courses[props.activeLanguage['language']]},
+    { 'education': props.shortInfos?.education[props.activeLanguage['language']]},
+    { 'interests': props.shortInfos?.interests[props.activeLanguage['language']] }
   ];
 
   const PortfolioData: CategoryItem[] = [
-    { 'Gapp': shortInfos?.Gapp[props.activeLanguage['language']]},
-    { 'Gothinczyk': shortInfos?.Gothinczyk[props.activeLanguage['language']]},
-    { 'HeadHunter': shortInfos?.HeadHunter[props.activeLanguage['language']]},
-    { 'PomodoroEq': shortInfos?.PomodoroEq[props.activeLanguage['language']]}
+    { 'Gapp': props.shortInfos?.Gapp[props.activeLanguage['language']]},
+    { 'Gothinczyk': props.shortInfos?.Gothinczyk[props.activeLanguage['language']]},
+    { 'HeadHunter': props.shortInfos?.HeadHunter[props.activeLanguage['language']]},
+    { 'PomodoroEq': props.shortInfos?.PomodoroEq[props.activeLanguage['language']]}
   ];
 
   const SkillsData: CategoryItem[] = [
@@ -53,7 +44,7 @@ export const RightSite = (props: Props) => {
   ];
 
   const Welcome: CategoryItem[] = [
-    { 'welcome': ' Witaj na moim CV. Znajdziesz tutaj trochę informacji o mnie w poszczególnych zakładkach lub po prostu zapytaj o to mojego bota'},
+    { 'welcome': props.activeLanguage['welcomeSpeech']},
     
   ];
 

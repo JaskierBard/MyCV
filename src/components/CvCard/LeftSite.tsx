@@ -9,10 +9,11 @@ interface Props {
     backgroundOrange: string,
     backgroundBlue: string,
     shadow: string
-  ) => void; // Funkcja przekazująca nową wartość tła do komponentu nadrzędnego
+  ) => void; 
   chooseLanguage: (language: string) => void;
   icons: any;
   aboutMe: any;
+  shortInfos: any,
   activeLanguage: {
     [key: string]: string;
   };
@@ -70,8 +71,8 @@ export const LeftSite = (props: Props) => {
       </div>
 
       <div className="shortAboutMe">
-        <div>Jestem otwarty na oferty pracy</div>
-        <div className="clickbait">Potrzebujesz więcej informacji? Zapytaj MateuszBot</div>
+        <div>{props.shortInfos?.work[props.activeLanguage['language']]}</div>
+        <div className="clickbait">{props.activeLanguage["tip"]}</div>
 
         <img
           src={props.icons && props.icons["github-color.png"]}

@@ -2,7 +2,6 @@ import OpenAI from "openai";
 import { API_KEY } from "../services/aiConfig";
 import {
   ChatCompletion,
-  ChatCompletionAssistantMessageParam,
   ChatCompletionCreateParamsBase,
   ChatCompletionMessageParam,
   ChatCompletionMessageToolCall,
@@ -10,97 +9,104 @@ import {
 } from "openai/resources/chat/completions";
 import { CompletionUsage } from "openai/resources";
 
-
 const parameters: ChatCompletionCreateParamsBase = {
-  n: 1, // liczba odpowiedzi, nie zawsze działa
-  top_p: 1, // im większe tym bardziej kreatywny, lepiej bawić się tylko temperaturą
-  temperature: 1, // im większe tym bardziej kreatywny, nie zmieniać obu na raz
-  max_tokens: 1000, // utnie odpowiedź jeśli się przekroczy tokeny
-  stream: false, // podaje całą odpowiedź a nie po literce
-  // model: "gpt-3.5-turbo",
-  model: 'gpt-4-1106-preview',
+  n: 1,
+  top_p: 1,
+  temperature: 1,
+  max_tokens: 1000,
+  stream: false,
+  model: "gpt-4-1106-preview",
 
   messages: [],
   tools: [
     {
       type: "function",
       function: {
-        name: 'getInformations',
-        description: 'Always use this functionCall when user is need some informations or asks about something and you dont have it its very important. Never dream up',
+        name: "getInformations",
+        description:
+          "Always use this functionCall when user is need some informations or asks about something and you dont have it its very important. Never dream up",
         parameters: {
-            type: 'object',
-            properties: {
-                informations: {
-                    type: 'string',
-                    description: 'give me only pure enum',
-                    enum: ['certifications', 'personalDetails', 'projects', 'skills', 'aboutCV', 'accessibility'],
-                },
+          type: "object",
+          properties: {
+            informations: {
+              type: "string",
+              description: "give me only pure enum",
+              enum: [
+                "certifications",
+                "personalDetails",
+                "projects",
+                "skills",
+                "aboutCV",
+                "accessibility",
+              ],
             },
+          },
         },
-      }
-        
+      },
     },
     {
       type: "function",
       function: {
-        name: 'answerWithInformations',
-        description: 'Always use when you already recieved infrmation to answer',
+        name: "answerWithInformations",
+        description:
+          "Always use when you already recieved infrmation to answer",
         parameters: {
-            type: 'object',
-            properties: {
-                informations: {
-                    type: 'string',
-                    description: 'Answer about',
-                },
+          type: "object",
+          properties: {
+            informations: {
+              type: "string",
+              description: "Answer about",
             },
+          },
         },
-      }
-        
+      },
     },
     {
       type: "function",
       function: {
-        name: 'getPictures',
-        description: 'Use this function call to get all picture names from storage and then choose correct ones, show one and ask about more. Show only link wrapped on <img class="picture" src=linkhere/>',
+        name: "getPictures",
+        description:
+          'Use this function call to get all picture names from storage and then choose correct ones, show one and ask about more. Show only link wrapped on <img class="picture" src=linkhere/>',
         parameters: {
-            type: 'object',
-            properties: {
-                informations: {
-                    type: 'string',
-                    description: 'Get pictures',
-                },
+          type: "object",
+          properties: {
+            informations: {
+              type: "string",
+              description: "Get pictures",
             },
+          },
         },
-      }
-        
+      },
     },
-],}
+  ],
+};
 
 export type ChatResponse = null | {
   content: null | string;
   toolCall: null | ChatCompletionMessageToolCall[];
-  usage: null | CompletionUsage
-}
+  usage: null | CompletionUsage;
+};
 
-  const extractFirstChoice = (msg: OpenAI.Chat.Completions.ChatCompletion): ChatResponse => {
-    const firstChoice = msg?.choices?.[0]?.message;
-    const usage = msg.usage
-    if (!firstChoice) {
-        return null;
-    }
-  
-    return {
-        content: firstChoice.content ?? null,
-        toolCall: firstChoice.tool_calls ?? null,
-        usage: usage ?? null,
-
-    };
+const extractFirstChoice = (
+  msg: OpenAI.Chat.Completions.ChatCompletion
+): ChatResponse => {
+  const firstChoice = msg?.choices?.[0]?.message;
+  const usage = msg.usage;
+  if (!firstChoice) {
+    return null;
   }
+
+  return {
+    content: firstChoice.content ?? null,
+    toolCall: firstChoice.tool_calls ?? null,
+    usage: usage ?? null,
+  };
+};
 
 export class OpenAiChat {
   private readonly openai = new OpenAI({
     apiKey: API_KEY,
-    dangerouslyAllowBrowser: true // do usunięcia
+    dangerouslyAllowBrowser: true,
   });
   private readonly messages: OpenAI.Chat.Completions.ChatCompletionMessageParam[];
   private readonly usage: CompletionUsage[];
@@ -112,54 +118,48 @@ export class OpenAiChat {
         content: system,
       },
     ];
-    this.usage = []
-    
+    this.usage = [];
   }
 
-  async initiateChat(previousMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[], usage:any): Promise<void> {
-    // Sprawdź, czy istnieją wcześniejsze wiadomości
+  async initiateChat(
+    previousMessages: OpenAI.Chat.Completions.ChatCompletionMessageParam[],
+    usage: any
+  ): Promise<void> {
     if (previousMessages && previousMessages.length > 0) {
-      
       this.messages.push(...previousMessages);
-      this.usage.push(
-        usage
-      );
+      this.usage.push(usage);
     }
   }
 
   async say(
     prompt: string,
-    role: ChatCompletionRole = 'user',
-    toolName?: string,
-): Promise<ChatResponse> {
+    role: ChatCompletionRole = "user",
+    toolName?: string
+  ): Promise<ChatResponse> {
     this.messages.push({
-        role,
-        content: prompt,
-        name: toolName,
+      role,
+      content: prompt,
+      name: toolName,
     } as ChatCompletionMessageParam);
 
     const data = await this.openai.chat.completions.create({
-        ...parameters,
-        messages: this.messages,
+      ...parameters,
+      messages: this.messages,
     });
-    const msg: any = extractFirstChoice(data as ChatCompletion);  
-    
+    const msg: any = extractFirstChoice(data as ChatCompletion);
+
     if (msg.content) {
       this.messages.push({
-            role: 'assistant',
-            content: msg.content,
-          });
-          
+        role: "assistant",
+        content: msg.content,
+      });
     }
     if (msg.usage) {
-      this.usage.push(
-        msg.usage
-      );
+      this.usage.push(msg.usage);
     }
 
     return msg;
-}
-  
+  }
 
   clear(): void {
     this.messages.splice(1);

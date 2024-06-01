@@ -27,7 +27,6 @@ const ChatSingleMessage = (props: Props) => {
     setFullscreenImg(imageUrl);
   };
 
-
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 
@@ -40,10 +39,8 @@ const ChatSingleMessage = (props: Props) => {
     return () => clearInterval(intervalId);
   }, [props.newMessageAwait]);
 
-
   return (
     <>
-
       {props.messages.map(
         (
           message: { role: string; content: string },
@@ -58,23 +55,24 @@ const ChatSingleMessage = (props: Props) => {
             <span
               dangerouslySetInnerHTML={{
                 __html: convertTextToHyperlinks(message.content),
-
               }}
             />
           </div>
-
         )
       )}
-      {props.newMessageAwait && <div className="ai-message" style={{width:15}}><span>{".".repeat(dotsCount)}</span></div>}
+      {props.newMessageAwait && (
+        <div className="ai-message" style={{ width: 15 }}>
+          <span>{".".repeat(dotsCount)}</span>
+        </div>
+      )}
       {fullscreenImg && (
         <div id="fullscreen">
           <img src={fullscreenImg} alt="fullscreen_picture"></img>
-          <button onClick={()=> setFullscreenImg(null)}>Zamknij</button>
+          <button onClick={() => setFullscreenImg(null)}>Zamknij</button>
         </div>
       )}
     </>
   );
 };
-
 
 export default ChatSingleMessage;

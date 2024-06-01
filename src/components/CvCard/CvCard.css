@@ -132,13 +132,11 @@
 }
 
 .shortAboutMe {
-  /* background-color: #739edf; */
   color: var(--dark-blue);
   border-radius: 5px;
   width: 100%;
   margin-top: 20px;
   text-align: center;
-  /* height: 100px; */
 }
 
 
@@ -146,7 +144,6 @@
   .cv-board {
     align-items: center;
     flex-direction: column;
-    /* height: 100vh; */
   }
 
   .right {
@@ -158,8 +155,6 @@
   .left {
     width: 500px;
     padding-top: 60px;
-    /* padding-bottom: 50px; */
-
   }
 
   
@@ -171,9 +166,6 @@
     position: relative;
     border-radius: 0px;
     width: 100vw;
-    /* height: 100vh; */
-    /* background-color: #6fa5b3; */
-
   }
 
   .right {

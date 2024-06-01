@@ -33,9 +33,6 @@ export const ChooseLanguage = (props: Props) => {
           alt={language}
           className={getClassName(index)}
           onClick={handleLanguageChange}
-          style={{
-            // zIndex: languages.length + index, // Zapewnia odpowiednie układanie ikon
-          }}
         />
       ))}
     </div>

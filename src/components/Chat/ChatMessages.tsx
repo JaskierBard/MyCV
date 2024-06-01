@@ -11,7 +11,6 @@ import { getIp } from "../../utils/getIp";
 import ChatLimiter from "./ChatLimiter";
 import ChatSingleMessage from "./ChatSingleMessage";
 
-
 export interface Props {
   feedback: boolean;
   aboutMe: any;
@@ -21,8 +20,7 @@ export interface Props {
   };
   questionBot: string | null;
   blockQuestionBot: () => void;
-  askBot: (ask:string | null) => void;
-
+  askBot: (ask: string | null) => void;
 }
 
 const ChatMessages = (props: Props) => {
@@ -58,7 +56,9 @@ const ChatMessages = (props: Props) => {
       setUserID(userIDdata);
       const data = await checkUserByDateAndIp(cutrrentDate, userIDdata);
       const newAiChat = new OpenAiChat(
-        (await getSettings("mainChat", "systemPrompts")) + "obecna data to" + cutrrentDate
+        (await getSettings("mainChat", "systemPrompts")) +
+          "obecna data to" +
+          cutrrentDate
       );
       setAiChat(newAiChat);
       if (data) {
@@ -76,17 +76,14 @@ const ChatMessages = (props: Props) => {
   }, []);
   useEffect(() => {
     (async () => {
-      
       if (props.questionBot !== null && aiChat !== undefined) {
         setNewMessageAwait(true);
-        console.log(props.questionBot)
+        console.log(props.questionBot);
         await AImessage(props.questionBot);
-        props.askBot(null)
-    }
-  })();
-
+        props.askBot(null);
+      }
+    })();
   }, [props.questionBot, aiChat]);
-
 
   const handleSendMessage = async () => {
     if (inputValue.trim() !== "") {
@@ -168,7 +165,7 @@ const ChatMessages = (props: Props) => {
         />
       </div>
       {blockedByTokenLimits ? (
-        <div className="warning">{props.activeLanguage['tokenWarning']}</div>
+        <div className="warning">{props.activeLanguage["tokenWarning"]}</div>
       ) : (
         <div className="input-container">
           <input
