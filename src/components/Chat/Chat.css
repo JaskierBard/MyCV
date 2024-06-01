@@ -1,7 +1,6 @@
 @media (min-width: 1000px) {
   .chat-container {
     position: fixed;
-
   }
 }
 
@@ -46,13 +45,16 @@
   height: 30px;
 }
 
-/* messages*/
 .message-container {
   display: flex;
   height: calc(100% - 80px);
   flex-direction: column;
   overflow-y: auto;
-  background: linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188));
+  background: linear-gradient(
+    to right bottom,
+    rgb(234, 226, 204),
+    rgb(235, 208, 188)
+  );
   box-shadow: inset 0 1px 5px black;
 }
 
@@ -71,7 +73,6 @@
   background-color: var(--dark-blue);
   color: white;
   align-self: flex-end;
-  
 }
 
 .ai-message {
@@ -90,8 +91,11 @@
   flex: 1;
   padding: 8px;
   border-radius: 5px;
-  background: linear-gradient(to right bottom, rgb(234, 226, 204), rgb(235, 208, 188));
-
+  background: linear-gradient(
+    to right bottom,
+    rgb(234, 226, 204),
+    rgb(235, 208, 188)
+  );
 }
 
 .bot-name {
@@ -101,7 +105,6 @@
   color: white;
 }
 
-/* Buttons */
 .open-button,
 .close-button,
 .fullscreen-button,
@@ -116,7 +119,6 @@
 
 .open-button {
   position: fixed;
-  /* position: absolute; */
   width: 350px;
   bottom: 4px;
   right: 4px;
@@ -126,19 +128,15 @@
 .send-button {
   margin-left: 5px;
   width: 30%;
-
 }
 
-.picture{
-  /* width: 100%; */
+.picture {
   max-width: 100%;
   max-height: 400px;
   cursor: pointer;
 }
 
-  /* chat-limmiter */
-
-.chat-limiter-toggler{
+.chat-limiter-toggler {
   position: absolute;
   background-color: rgba(0, 0, 0, 0.568);
   border-color: rgba(0, 0, 0, 0);
@@ -148,18 +146,14 @@
   font-size: 10px;
 }
 
-
-
-
 #fullscreen {
   position: fixed;
-  /* position: absolute; */
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(0, 0, 0, 0.884); /* opcjonalne: dodajemy półprzezroczyste tło */
-  z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
+  background-color: rgba(0, 0, 0, 0.884);
+  z-index: 9999;
 }
 
 #fullscreen img {
@@ -167,7 +161,7 @@
   margin: auto;
   max-width: 100%;
   max-height: 100%;
-  margin-top:50px
+  margin-top: 50px;
 }
 
 #fullscreen button {
@@ -178,13 +172,12 @@
   color: white;
   border: none;
   cursor: pointer;
-  z-index: 9999; /* opcjonalne: ustawiamy wysoki indeks warstwy, aby element był na wierzchu */
-
+  z-index: 9999;
 }
 
 .warning {
   color: var(--orange);
   font-weight: 500;
   margin-top: 10px;
-text-align: center
+  text-align: center;
 }

@@ -1,6 +1,10 @@
 import { useEffect, useState } from "react";
 import "./Chat.css";
-import { addToConversation, getSettings, sumUsedTokensFromDate } from "../../services/firebaseChatService";
+import {
+  addToConversation,
+  getSettings,
+  sumUsedTokensFromDate,
+} from "../../services/firebaseChatService";
 
 export interface Props {
   userID: string;
@@ -24,37 +28,38 @@ const ChatLimiter = (props: Props) => {
 
   useEffect(() => {
     (async () => {
-      if (typeof props.usage ==="object") {
+      if (typeof props.usage === "object") {
         const totalTokenSum = Object.values(props.usage).reduce(
           (acc, curr) => acc + curr.total_tokens,
           0
         );
         setUsedUserToken(totalTokenSum);
         setTotalTokenLimits(await sumUsedTokensFromDate(props.currentDate));
-        if (props.newMessageAwait !== null ) {
-          addToConversation(props.userID, props.messages, props.currentDate, totalTokenSum);
+        if (props.newMessageAwait !== null) {
+          addToConversation(
+            props.userID,
+            props.messages,
+            props.currentDate,
+            totalTokenSum
+          );
         }
-
       }
     })();
   }, [props.usage]);
 
   useEffect(() => {
-
-    if (usedUserToken>dailyPerUser || totalTokenLimits>dailySumUser) {
-
+    if (usedUserToken > dailyPerUser || totalTokenLimits > dailySumUser) {
       props.blockInput();
     }
   }, [usedUserToken]);
 
   useEffect(() => {
     (async () => {
-
-    setDailyPerUser(Number(await getSettings("dailyPerUser", "tokenLimits")))
-    setDailySumUser(Number(await getSettings("dailySumUsers", "tokenLimits")))
-
-  })();
-
+      setDailyPerUser(Number(await getSettings("dailyPerUser", "tokenLimits")));
+      setDailySumUser(
+        Number(await getSettings("dailySumUsers", "tokenLimits"))
+      );
+    })();
   }, []);
 
   return (
@@ -63,7 +68,9 @@ const ChatLimiter = (props: Props) => {
         className="chat-limiter-toggler"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {props.activeLanguage['limits']} {isOpen && `pozostało tokenów: ${Number(dailyPerUser) - Number(usedUserToken)}`}
+        {props.activeLanguage["limits"]}{" "}
+        {isOpen &&
+          `pozostało tokenów: ${Number(dailyPerUser) - Number(usedUserToken)}`}
       </button>
     </>
   );

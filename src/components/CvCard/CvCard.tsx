@@ -26,7 +26,6 @@ const CvCard = (props:Props) => {
   useEffect(() => {
     (async () => {
       const info = await getShort();
-      console.log(props.activeLanguage);
       setShortInfos(info);
     })();
   }, []);

@@ -8,11 +8,9 @@ export interface Props {
   activeLanguage: {
     [key: string]: string;
   };
-  questionBot:string | null;
+  questionBot: string | null;
   blockQuestionBot: () => void;
   askBot: (ask: string | null) => void;
-
-
 }
 
 const Chat = (props: Props) => {
@@ -23,7 +21,7 @@ const Chat = (props: Props) => {
   useEffect(() => {
     if (props.questionBot !== undefined) {
       if (isOpen === false) {
-        setIsOpen(true)
+        setIsOpen(true);
       }
     }
   }, [props.questionBot]);
@@ -45,7 +43,7 @@ const Chat = (props: Props) => {
     <>
       {!isOpen && (
         <button className="open-button" onClick={toggleChat}>
-          {props.activeLanguage['chat']}
+          {props.activeLanguage["chat"]}
         </button>
       )}
       {isOpen && (
@@ -70,7 +68,7 @@ const Chat = (props: Props) => {
             aboutMe={props.aboutMe}
             background={props.background}
             activeLanguage={props.activeLanguage}
-            questionBot= {props.questionBot}
+            questionBot={props.questionBot}
             askBot={props.askBot}
             blockQuestionBot={props.blockQuestionBot}
           />

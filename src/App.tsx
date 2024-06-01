@@ -5,8 +5,6 @@ import { getAboutMe } from "./services/firebaseChatService";
 import CvCard from "./components/CvCard/CvCard";
 import { tabNames } from "./utils/translations";
 
-
-
 function App() {
   const [aboutMe, setAboutMe] = useState<any>();
   const [questionBot, setQuestionBot] = useState<string | null>(null);
@@ -14,7 +12,7 @@ function App() {
 
   const [activeLanguage, setActiveLanguage] = useState<{
     [key: string]: string;
-  }>(tabNames['Polish']);
+  }>(tabNames["Polish"]);
 
   const [backgroundOrange, setBackgroundOrange] = useState<string>(
     "linear-gradient(to bottom right, #ear2cc, #ebd0bc)"
@@ -25,7 +23,7 @@ function App() {
 
   const handleBackgroundChange = (
     backgroundOrange: string,
-    backgroundBlue: string,
+    backgroundBlue: string
   ) => {
     setBackgroundOrange(backgroundOrange);
     backgroundBlue && setBackgroundBlue(backgroundBlue);
@@ -64,7 +62,14 @@ function App() {
         askBot={askBot}
         blockQuestionBot={blockQuestionBot}
       />
-      <Chat aboutMe={aboutMe} background={backgroundOrange} activeLanguage={activeLanguage} questionBot={questionBot}  blockQuestionBot={handleBlockQuestionBot} askBot={askBot}/>
+      <Chat
+        aboutMe={aboutMe}
+        background={backgroundOrange}
+        activeLanguage={activeLanguage}
+        questionBot={questionBot}
+        blockQuestionBot={handleBlockQuestionBot}
+        askBot={askBot}
+      />
     </div>
   );
 }
