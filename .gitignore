@@ -27,3 +27,10 @@ yarn-error.log*
 aiConfig.ts
 firebaseConfig.ts
 .env
+
+.firebaserc
+firebase.json
+/build
+firestore.indexes.json
+firestore.rules
+.firebase

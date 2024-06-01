@@ -20,6 +20,8 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
       frontend: "frontend",
       backend: "backend",
       welcome: "Witaj!",
+      welcomeSpeech: " Witaj na moim CV. Znajdziesz tutaj trochę informacji o mnie w poszczególnych zakładkach lub po prostu zapytaj o to mojego bota",
+      tip: " Potrzebujesz więcej informacji? Zapytaj MateuszBot",
       law: "© 2024 Mateusz Świderski. Wszelkie prawa zastrzeżone"
   
     },
@@ -44,6 +46,9 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
       frontend: "frontend",
       backend: "backend",
       welcome: "Hi!",
+      welcomeSpeech: " Welcome to my CV. Here you will find some information about me in individual tabs or just ask my bot about it",
+      tip: "Need more information? Ask MateuszBot",
+
       law: "© 2024 Mateusz Świderski. All Rights Reserved"
 
   
@@ -71,6 +76,9 @@ export const tabNames: { [key: string]: { [key: string]: string } } = {
       frontend: "frontend",
       backend: "backend",
       welcome: "Hallo!",
+      welcomeSpeech: "Willkommen in meinem Lebenslauf. Hier findest du in einzelnen Tabs ein paar Informationen über mich oder frag einfach meinen Bot danach",
+      tip: "Benötigen Sie weitere Informationen? Fragen Sie MateuszBot",
+
       law: "© 2024 Mateusz Świderski. Alle Rechte vorbehalten"
 
       

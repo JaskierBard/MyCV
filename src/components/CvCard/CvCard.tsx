@@ -3,7 +3,7 @@ import "./CvCard.css";
 import { LeftSite } from "./LeftSite";
 import { Navbar } from "./Navbar/Navbar";
 import { RightSite } from "./RightSite";
-import { getImage } from "../../services/firebaseChatService";
+import { getImage, getShort } from "../../services/firebaseChatService";
 
 interface Props {
   onBackgroundChange: (backgroundOrange: string, backgroundBlue: string, shadow: string) => void;
@@ -21,6 +21,15 @@ const CvCard = (props:Props) => {
   const [shadow, setShadow] = useState<string>("15px 15px 10px rgba(0, 0, 0, 0.5)");
   const [activeTab, setActiveTab] = useState<string>("");
   const [icons, setIcons] = useState<any>();
+  const [shortInfos, setShortInfos] = useState<any>();
+
+  useEffect(() => {
+    (async () => {
+      const info = await getShort();
+      console.log(props.activeLanguage);
+      setShortInfos(info);
+    })();
+  }, []);
 
 
 
@@ -46,8 +55,8 @@ useEffect(() => {
     <div className="motherboard">
       <Navbar handleActiveTabChange={handleActiveTabChange} activeLanguage={props.activeLanguage}/>
       <div className="cv-board" style={{ background: backgroundOrange, boxShadow: shadow }}>
-        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} activeLanguage={props.activeLanguage} icons={icons} aboutMe={props.aboutMe}/>
-        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons} askBot={props.askBot} activeLanguage={props.activeLanguage} blockQuestionBot={props.blockQuestionBot}/>
+        <LeftSite onBackgroundChange={handleBackgroundChange} chooseLanguage={props.chooseLanguage} activeLanguage={props.activeLanguage} icons={icons} aboutMe={props.aboutMe} shortInfos={shortInfos}/>
+        <RightSite activeTab={activeTab} aboutMe={props.aboutMe} icons={icons} askBot={props.askBot} activeLanguage={props.activeLanguage} blockQuestionBot={props.blockQuestionBot} shortInfos={shortInfos}/>
       </div>
     </div>
   );
